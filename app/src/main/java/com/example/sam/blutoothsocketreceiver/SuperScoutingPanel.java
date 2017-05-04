@@ -1,30 +1,17 @@
 package com.example.sam.blutoothsocketreceiver;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,14 +52,8 @@ public class SuperScoutingPanel extends Fragment {
         teamNumberTextView.setText(teamNumber);
     }
 
-    public String getTeamNumber(){
-        TextView teamNumberTextView = (TextView) getView().findViewById(R.id.teamNumberTextView);
-        return teamNumberTextView.getText().toString();
-    }
-    
     public int getDataNameCount(){
         int numOfDataName = ((LinearLayout)getView()).getChildCount();
-        Log.e("dataNameCount", Integer.toString(numOfDataName));
         return numOfDataName;
     }
 
@@ -89,12 +70,6 @@ public class SuperScoutingPanel extends Fragment {
         }
 
         return mapOfData;
-    }
-
-    public void addToFourApplied(String dataName, Boolean fourApplied){
-        if(fourApplied == null){
-            fourApplied = false;
-        }
     }
 }
 

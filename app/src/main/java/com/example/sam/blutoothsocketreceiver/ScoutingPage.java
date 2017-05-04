@@ -90,7 +90,6 @@ public class ScoutingPage extends ActionBarActivity {
         getExtrasForScouting();
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.super_scouting_panel, null);
-        Log.e("Super Scouting", dataBaseUrl);
         dataBase = FirebaseDatabase.getInstance().getReference();
         setPanels();
         initializeTeamTextViews();
@@ -161,15 +160,12 @@ public class ScoutingPage extends ActionBarActivity {
                         try {
 
                             for (int i = 0; i < panelOne.getDataNameCount() - 1; i++) {
-                                Log.e("Scouting", "4");
                                 dataBase.child("/TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child(reformatDataNames(teamOneDataName.get(i))).setValue(Integer.parseInt(teamOneDataScore.get(i)));
                             }
                             for (int i = 0; i < panelTwo.getDataNameCount() - 1; i++) {
-                                Log.e("Scouting", "5");
                                 dataBase.child("/TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child(reformatDataNames(teamTwoDataName.get(i))).setValue(Integer.parseInt(teamTwoDataScore.get(i)));
                             }
                             for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
-                                Log.e("Scouting", "6");
                                 dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
                             }
                         } catch (DatabaseException FBE) {
@@ -234,13 +230,11 @@ public class ScoutingPage extends ActionBarActivity {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
                     allianceFoulInt = Integer.parseInt(allianceFoulData);
                 } catch (NumberFormatException nfe) {
-                    Log.i("Exception", "Number Format");
                     rotorNumAuto = 0;
                     rotorNumTele = 0;
                     allianceScoreInt = 0;
                     allianceFoulInt = 0;
                 } catch (NullPointerException npe) {
-                    Log.i("Exception", "Null Pointer");
                     rotorNumAuto = 0;
                     rotorNumTele = 0;
                     allianceScoreInt = 0;
@@ -346,22 +340,6 @@ public class ScoutingPage extends ActionBarActivity {
         for (int i = 0; i < teamThreeDataName.size(); i++) {
             teamThreeDataScore.add(panelThree.getData().get(teamThreeDataName.get(i)).toString());
         }
-
-        Log.e("teamOneDataKeys", panelOne.getData().keySet().toString());
-        Log.e("teamTwoDataKeys", panelTwo.getData().keySet().toString());
-        Log.e("teamThreeDataKeys", panelThree.getData().keySet().toString());
-
-        Log.e("teamOneDataNameSize", Integer.toString(teamOneDataName.size()));
-        Log.e("teamTwoDataNameSize", Integer.toString(teamTwoDataName.size()));
-        Log.e("teamThreeDataNameSize", Integer.toString(teamThreeDataName.size()));
-
-        Log.e("teamOneDataName", teamOneDataName.toString());
-        Log.e("teamOneDataScore", teamOneDataScore.toString());
-        Log.e("teamTwoDataName", teamTwoDataName.toString());
-        Log.e("teamTwoDataScore", teamTwoDataScore.toString());
-        Log.e("teamThreeDataName", teamThreeDataName.toString());
-        Log.e("teamThreeDataScore", teamThreeDataScore.toString());
-
     }
 
     public String reformatDataNames(String dataName) {
@@ -380,7 +358,6 @@ public class ScoutingPage extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 final String teamNumber = teamNumberOneTextview.getText().toString();
-                final String qualNum = numberOfMatch.toString();
 
                 final EditText pilotNotesETOne = new EditText(context);
 
@@ -395,8 +372,6 @@ public class ScoutingPage extends ActionBarActivity {
                         .setView(pilotNotesETOne)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Dialog d = (Dialog) dialog;
-                                Log.e("TEAMNUM",teamNumber);
                                 teamOneNotes = pilotNotesETOne.getText().toString();
                             }
                         })
@@ -412,7 +387,6 @@ public class ScoutingPage extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 final String teamNumber = teamNumberTwoTextview.getText().toString();
-                final String qualNum = numberOfMatch.toString();
 
                 final EditText pilotNotesETTwo = new EditText(context);
 
@@ -427,8 +401,6 @@ public class ScoutingPage extends ActionBarActivity {
                         .setView(pilotNotesETTwo)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Dialog d = (Dialog) dialog;
-                                Log.e("TEAMNUM",teamNumber);
                                 teamTwoNotes = pilotNotesETTwo.getText().toString();
                             }
                         })
@@ -444,7 +416,6 @@ public class ScoutingPage extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 final String teamNumber = teamNumberThreeTextview.getText().toString();
-                final String qualNum = numberOfMatch.toString();
 
                 final EditText pilotNotesETThree = new EditText(context);
 
@@ -459,8 +430,6 @@ public class ScoutingPage extends ActionBarActivity {
                         .setView(pilotNotesETThree)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                Dialog d = (Dialog) dialog;
-                                Log.e("TEAMNUM",teamNumber);
                                 teamThreeNotes = pilotNotesETThree.getText().toString();
                             }
                         })

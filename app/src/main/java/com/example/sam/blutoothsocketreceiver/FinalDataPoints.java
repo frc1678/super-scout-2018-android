@@ -176,14 +176,12 @@ public class FinalDataPoints extends ActionBarActivity {
                         //can delete when doing the actual thing
                         file = new PrintWriter(new FileOutputStream(new File(dir, ("Q" + numberOfMatch + "_"  + new SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new Date())))));
                     } catch (IOException IOE) {
-                        Log.e("File error", "Failed to open File");
                         return;
                     }
                     try {
                         String JsonStringTeamOne = "{";
                         String JsonStringTeamTwo = "{";
                         String JsonStringTeamThree = "{";
-                        Log.i("JSON", String.valueOf(teamOneDataScore.size()));
                         for(int a = 0; a <= teamOneDataScore.size() - 1; a++){
                             JsonStringTeamOne = JsonStringTeamOne + ("\"" + reformatDataNames(teamOneDataName.get(a)) + "\": " + teamOneDataScore.get(a));
                             if(a != teamOneDataScore.size() - 1){
@@ -228,7 +226,6 @@ public class FinalDataPoints extends ActionBarActivity {
                         superExternalData.put("teamOneNotes", Constants.teamOneNoteHolder);
                         superExternalData.put("teamTwoNotes", Constants.teamTwoNoteHolder);
                         superExternalData.put("teamThreeNotes", Constants.teamThreeNoteHolder);
-                        //ArrayList<String> rankNames = new ArrayList<>(Arrays.asList("numTimesBeached", "numTimesSlowed", "numTimesUnaffected"));
                     }catch(JSONException JE){
                         Log.e("JSON Error", "couldn't put keys and values in json object");
                     }
@@ -261,7 +258,6 @@ public class FinalDataPoints extends ActionBarActivity {
             }else {
                 backToHome.putExtra("shouldBeRed", false);
             }
-            Log.e("final data alliance", alliance);
             backToHome.putExtra("number", numberOfMatch);
             backToHome.putExtra("mute", isMute);
             startActivity(backToHome);

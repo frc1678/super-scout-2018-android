@@ -90,7 +90,6 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("test", "Logcat is up and running!");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         context = this;
         isOverriden = false;
@@ -186,8 +185,6 @@ public class MainActivity extends ActionBarActivity {
             isMute = false;
             int randNum = (int) (Math.random() * 3);
             playSound(randNum);
-            Log.e("number", randNum + "");
-            Log.e("cat", "sound");
         }
     }
     public void playSound(int playTrak){
@@ -419,7 +416,6 @@ public class MainActivity extends ActionBarActivity {
             file = new BufferedReader(new InputStreamReader(new FileInputStream(
                     new File(name))));
         } catch (IOException ioe) {
-            Log.e("File Error", "Failed To Open File");
             Toast.makeText(context, "Failed To Open File", Toast.LENGTH_LONG).show();
             return null;
         }
@@ -430,26 +426,11 @@ public class MainActivity extends ActionBarActivity {
                 dataOfFile = dataOfFile.concat(buf + "\n");
             }
         } catch (IOException ioe) {
-            Log.e("File Error", "Failed To Read From File");
             Toast.makeText(context, "Failed To Read From File", Toast.LENGTH_LONG).show();
             return null;
         }
-        Log.i("fileData", dataOfFile);
         return dataOfFile;
     }
-
-//converts jsonArrays to arrays
-//    public List<Object> jsonArrayToArray(JSONArray array) {
-//        List<Object> os = new ArrayList<>();
-//        for (int i = 0; i < array.length(); i++) {
-//            try {
-//                os.add(array.get(i));
-//            } catch (Exception e) {
-//                //do nothing
-//            }
-//        }
-//        return os;
-//    }
 
     public void resendSuperData(final List<JSONObject> dataPoints) {
         new Thread() {
@@ -458,10 +439,7 @@ public class MainActivity extends ActionBarActivity {
                 //read data from file
                 for (int j = 0; j < dataPoints.size(); j++) {
 
-                    Log.e("Beginning", "Test here");
-                    Log.e("Test 1", "super file is not null!");
                     try {
-                        Log.e("Test 2", "assign file data to Json");
                         JSONObject superData = dataPoints.get(j);
 
                         String teamOneFirstNotes = superData.getString("teamOneFirstNotes");
@@ -532,7 +510,6 @@ public class MainActivity extends ActionBarActivity {
                     } catch (JSONException JE) {
                         Log.e("json error", "failed to get super json");
                     }
-                    // new ConnectThread(context, superName, uuid, name, text).start();
                 }
                 toasts("Resent Super data!", false);
             }
@@ -602,7 +579,6 @@ public class MainActivity extends ActionBarActivity {
                                 try {
                                     superData = new JSONObject(content);
                                 } catch (JSONException jsone) {
-                                    Log.e("File Error", "no valid JSON in the file");
                                     Toast.makeText(context, "Not a valid JSON", Toast.LENGTH_LONG).show();
                                     return;
                                 }
@@ -623,7 +599,6 @@ public class MainActivity extends ActionBarActivity {
                 final String name = parent.getItemAtPosition(position).toString();
                 String splitName[] = name.split("_");
                 final String editMatchNumber = splitName[0].replace("Q", "");
-                Log.e("matchNameChange", editMatchNumber);
                 String filePath = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data/" + name;
                 final String content = readFile(filePath);
                 final JSONObject superData;
@@ -632,11 +607,9 @@ public class MainActivity extends ActionBarActivity {
                     if (isRed) {
                         previousScore = superData.get("Red Alliance Score").toString();
                         previousFoul = superData.get("Red Alliance Foul").toString();
-                        Log.e("previous Score", previousScore);
                     } else {
                         previousScore = superData.get("Blue Alliance Score").toString();
                         previousFoul = superData.get("Blue Alliance Foul").toString();
-                        Log.e("previous Score", previousScore);
                     }
                     previous40kpa = Boolean.valueOf((String) superData.get("boilerRPGained"));
                     previousRotorNumAuto = (Integer) superData.get("numRotorsSpinningAuto");
@@ -718,6 +691,3 @@ public class MainActivity extends ActionBarActivity {
     }
 
 }
-
-
-
