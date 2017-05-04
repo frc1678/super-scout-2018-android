@@ -72,41 +72,9 @@ public class Counter extends RelativeLayout {
                 if (value + increment <= max) {
                     value += increment;
                     refreshCounter(value);
-                    Integer previousValue = value - 1;
-                    makeArrayChanges(value, previousValue);
                 }
             }
         });
-    }
-
-    public void makeArrayChanges(Integer currentValue, Integer previousValue){
-        switch(dataName){
-            case "Defense" : {
-                SuperScoutingPanel.Defense.set(currentValue, SuperScoutingPanel.Defense.get(currentValue) + 1);
-                SuperScoutingPanel.Defense.set(previousValue, SuperScoutingPanel.Defense.get(previousValue) - 1);
-                break;
-            }
-            case "Agility" : {
-                SuperScoutingPanel.Agility.set(currentValue, SuperScoutingPanel.Agility.get(currentValue) + 1);
-                SuperScoutingPanel.Agility.set(previousValue, SuperScoutingPanel.Agility.get(previousValue) - 1);
-                break;
-            }
-            case "Ball Control" : {
-                SuperScoutingPanel.BallControl.set(currentValue, SuperScoutingPanel.BallControl.get(currentValue) + 1);
-                SuperScoutingPanel.BallControl.set(previousValue, SuperScoutingPanel.BallControl.get(previousValue) - 1);
-                break;
-            }
-            case "Gear Control" : {
-                SuperScoutingPanel.GearControl.set(currentValue, SuperScoutingPanel.GearControl.get(currentValue) + 1);
-                SuperScoutingPanel.GearControl.set(previousValue, SuperScoutingPanel.GearControl.get(previousValue) - 1);
-                break;
-            }
-            case "Speed" : {
-                SuperScoutingPanel.Speed.set(currentValue, SuperScoutingPanel.Speed.get(currentValue) + 1);
-                SuperScoutingPanel.Speed.set(previousValue, SuperScoutingPanel.Speed.get(previousValue) - 1);
-                break;
-            }
-        }
     }
 
     private void listenForMinusClicked(){
@@ -116,8 +84,6 @@ public class Counter extends RelativeLayout {
                 if (value - increment >= min) {
                     value -= increment;
                     refreshCounter(value);
-                    Integer previousValue = value + 1;
-                    makeArrayChanges(value, previousValue);
                 }
             }
         });

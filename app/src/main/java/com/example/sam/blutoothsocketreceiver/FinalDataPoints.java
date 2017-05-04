@@ -56,12 +56,6 @@ public class FinalDataPoints extends ActionBarActivity {
     ArrayList<String> teamTwoDataScore;
     ArrayList<String> teamThreeDataName;
     ArrayList<String> teamThreeDataScore;
-    EditText rotorTextAuto;
-    EditText rotorTextTele;
-    ToggleButton boilerRP;
-    Integer rotorNumAuto;
-    Integer rotorNumTele;
-    Boolean boilerRPGained;
     Boolean isMute;
     File dir;
     PrintWriter file;
@@ -78,12 +72,9 @@ public class FinalDataPoints extends ActionBarActivity {
         superExternalData = new JSONObject();
         getExtrasForFinalData();
         firebaseRef = FirebaseDatabase.getInstance().getReference();
-        rotorTextAuto = (EditText) findViewById(R.id.rotorAutoText);
-        rotorTextTele = (EditText) findViewById(R.id.rotorTeleText);
         allianceScore = (EditText) findViewById(R.id.finalScoreEditText);
         allianceFoul = (EditText) findViewById(R.id.finalFoulEditText);
         finalScore = (TextView)findViewById(R.id.finalScoreTextView);
-        boilerRP = (ToggleButton) findViewById(R.id.boilerToggleButton);
         allianceScore.setCursorVisible(false);
 
         if(alliance.equals("Blue Alliance")){
@@ -91,21 +82,7 @@ public class FinalDataPoints extends ActionBarActivity {
         }else if(alliance.equals("Red Alliance")){
             finalScore.setTextColor(Color.RED);
         }
-        if(rotorNumAuto != null){
-            if(rotorNumAuto >= 0) {
-                rotorTextAuto.setText(String.valueOf(rotorNumAuto));
-            }
-        }
-        if(rotorNumTele != null){
-            if(rotorNumTele >= 0) {
-                rotorTextTele.setText(String.valueOf(rotorNumTele));
-            }
-        }
-        if(boilerRPGained){
-            boilerRP.setChecked(true);
-        }else {
-            boilerRP.setChecked(false);
-        }
+
         allianceScore.setText(allianceScoreData);
         allianceFoul.setText(allianceFoulData);
         dir = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data");
@@ -146,13 +123,9 @@ public class FinalDataPoints extends ActionBarActivity {
             final Activity context = this;
             int score;
             int foul;
-            int autoGears;
-            int teleGears;
             try {
                 score = Integer.parseInt(allianceScore.getText().toString());
                 foul = Integer.parseInt(allianceFoul.getText().toString());
-                autoGears = Integer.parseInt(rotorTextAuto.getText().toString());
-                teleGears = Integer.parseInt(rotorTextTele.getText().toString());
             } catch (NumberFormatException nfe) {
                 Toast.makeText(this, "Invalid inputs", Toast.LENGTH_LONG).show();
                 return false;
@@ -162,8 +135,6 @@ public class FinalDataPoints extends ActionBarActivity {
             }
             final int allianceScoreNum = score;
             final int allianceFoulNum = foul;
-            final int allianceAutoGearsNum = autoGears;
-            final int allianceTeleGearsNum = teleGears;
 
             //Send the data of the super scout on a separate thread
             new Thread() {
@@ -210,9 +181,6 @@ public class FinalDataPoints extends ActionBarActivity {
                         JSONObject JsonTeamTwo = new JSONObject(JsonStringTeamTwo);
                         JSONObject JsonTeamThree = new JSONObject(JsonStringTeamThree);
 
-                        superExternalData.put("numRotorsSpinningAuto", allianceAutoGearsNum);
-                        superExternalData.put("numRotorsSpinningTele", allianceTeleGearsNum);
-                        superExternalData.put("boilerRPGained", boilerRP.getText().toString());
                         superExternalData.put("matchNumber", numberOfMatch);
                         superExternalData.put("alliance", alliance);
                         superExternalData.put(alliance + " Score", allianceScoreNum);
@@ -304,24 +272,15 @@ public class FinalDataPoints extends ActionBarActivity {
         dataBaseUrl = intent.getExtras().getString("dataBaseUrl");
         allianceScoreData = intent.getExtras().getString("allianceScore");
         allianceFoulData = intent.getExtras().getString("allianceFoul");
-        rotorNumAuto = intent.getExtras().getInt("scoutRotorsAutoNum");
-        rotorNumTele = intent.getExtras().getInt("scoutRotorsTeleNum");
-        boilerRPGained = intent.getExtras().getBoolean("scoutBoilerRPGained");
         isMute = intent.getExtras().getBoolean("mute");
     }
 
     public void sendAfterMatchData(){
         if (alliance.equals("Blue Alliance")) {
-            firebaseRef.child("/Matches").child(numberOfMatch).child("numRotorsSpinningBlueAuto").setValue(Integer.parseInt(rotorTextAuto.getText().toString()));
-            firebaseRef.child("/Matches").child(numberOfMatch).child("numRotorsSpinningBlueTele").setValue(Integer.parseInt(rotorTextTele.getText().toString()));
-            firebaseRef.child("/Matches").child(numberOfMatch).child("blueDidReachFortyKilopascals").setValue(boilerRP.isChecked());
             firebaseRef.child("/Matches").child(numberOfMatch).child("blueScore").setValue(Integer.parseInt(allianceScore.getText().toString()));
             firebaseRef.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(Integer.parseInt(allianceFoul.getText().toString()));
 
         } else if (alliance.equals("Red Alliance")) {
-            firebaseRef.child("/Matches").child(numberOfMatch).child("numRotorsSpinningRedAuto").setValue(Integer.parseInt(rotorTextAuto.getText().toString()));
-            firebaseRef.child("/Matches").child(numberOfMatch).child("numRotorsSpinningRedTele").setValue(Integer.parseInt(rotorTextTele.getText().toString()));
-            firebaseRef.child("/Matches").child(numberOfMatch).child("redDidReachFortyKilopascals").setValue(boilerRP.isChecked());
             firebaseRef.child("/Matches").child(numberOfMatch).child("redScore").setValue(Integer.parseInt(allianceScore.getText().toString()));
             firebaseRef.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(Integer.parseInt(allianceFoul.getText().toString()));
         }
