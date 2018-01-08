@@ -47,6 +47,8 @@ public class FinalDataPoints extends ActionBarActivity {
     String alliance;
     String dataBaseUrl;
     String allianceScoreData, allianceFoulData;
+    Integer rotorNumAuto;
+    Integer rotorNumTele;
     TextView finalScore;
     EditText allianceScore, allianceFoul;
     JSONObject superExternalData;
