@@ -74,7 +74,6 @@ public class MainActivity extends ActionBarActivity {
     ArrayAdapter<String> adapter;
 
     //THIS IS THE MASTER BRANCH
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
