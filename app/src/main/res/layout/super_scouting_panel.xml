@@ -22,8 +22,8 @@
         android:paddingTop="25dp"
         custom:dataName="Speed"
         custom:startingValue="2"
-        custom:max="4"
-        custom:min="0"
+        custom:max="3"
+        custom:min="1"
         custom:increment="1"/>
 
     <com.example.sam.blutoothsocketreceiver.Counter
@@ -33,8 +33,8 @@
         android:paddingTop="10dp"
         custom:dataName="Agility"
         custom:startingValue="2"
-        custom:max="4"
-        custom:min="0"
+        custom:max="3"
+        custom:min="1"
         custom:increment="1"/>
 
     <com.example.sam.blutoothsocketreceiver.Counter
@@ -44,8 +44,8 @@
         android:paddingTop="10dp"
         custom:dataName="Defense"
         custom:startingValue="2"
-        custom:max="4"
-        custom:min="0"
+        custom:max="3"
+        custom:min="1"
         custom:increment="1"/>
 
     <com.example.sam.blutoothsocketreceiver.Counter
@@ -55,8 +55,8 @@
         android:paddingTop="10dp"
         custom:dataName="Stacking"
         custom:startingValue="2"
-        custom:max="4"
-        custom:min="0"
+        custom:max="3"
+        custom:min="1"
         custom:increment="1"/>
 
     <com.example.sam.blutoothsocketreceiver.Counter
@@ -66,8 +66,8 @@
         android:paddingTop="10dp"
         custom:dataName="Defense"
         custom:startingValue="2"
-        custom:max="4"
-        custom:min="0"
+        custom:max="3"
+        custom:min="1"
         custom:increment="1"/>
 
 
