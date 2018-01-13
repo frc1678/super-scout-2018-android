@@ -16,7 +16,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,7 +48,6 @@ import com.example.sam.blutoothsocketreceiver.firebase_classes.Match;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -230,7 +228,7 @@ public class MainActivity extends ActionBarActivity {
 //                }
                 else {
                     commitSharedPreferences();
-                    Intent intent = new Intent(context, ScoutingPage.class);
+                    Intent intent = new Intent(context, FieldSetup.class);
                     intent.putExtra("matchNumber", numberOfMatch.getText().toString());
                     intent.putExtra("teamNumberOne", teamNumberOne.getText().toString());
                     intent.putExtra("teamNumberTwo", teamNumberTwo.getText().toString());
