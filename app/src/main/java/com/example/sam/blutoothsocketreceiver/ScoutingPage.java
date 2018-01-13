@@ -57,6 +57,7 @@ public class ScoutingPage extends ActionBarActivity {
     String teamTwoNotes;
     String teamThreeNotes;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,45 +118,53 @@ public class ScoutingPage extends ActionBarActivity {
         }
 
         if (id == R.id.finalNext) {
-
-            final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
-            final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
-            final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
-            listDataValues();
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        for (int i = 0; i < panelOne.getDataNameCount() - 1; i++) {
-                            dataBase.child("/TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child(reformatDataNames(teamOneDataName.get(i))).setValue(Integer.parseInt(teamOneDataScore.get(i)));
-                        }
-                        for (int i = 0; i < panelTwo.getDataNameCount() - 1; i++) {
-                            dataBase.child("/TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child(reformatDataNames(teamTwoDataName.get(i))).setValue(Integer.parseInt(teamTwoDataScore.get(i)));
-                        }
-                        for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
-                            dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
-                        }
-                    } catch (DatabaseException FBE) {
-                        Log.e("firebase", "scoutingPage");
-                    } catch (IndexOutOfBoundsException IOB) {
-                        Log.e("ScoutingPage", "Index");
-                    }
+            boolean moreThanOne = false;
+            for (int a = 1; a <= 3; a++) {
+                if (SuperScoutingPanel.Speed.get(a) > 1 || SuperScoutingPanel.Agility.get(a) > 1 || SuperScoutingPanel.Defense.get(a) > 1 || SuperScoutingPanel.Stacking.get(a) > 1) {
+                    moreThanOne = true;
                 }
-            }.start();
-            sendExtras();
-        }
-        return super.onOptionsItemSelected(item);
+
+                if (!moreThanOne) {
+                    final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
+                    final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
+                    final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
+                    listDataValues();
+                    new Thread() {
+                        @Override
+                        public void run() {
+                            try {
+                                for (int i = 0; i < panelOne.getDataNameCount() - 1; i++) {
+                                    dataBase.child("/TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child(reformatDataNames(teamOneDataName.get(i))).setValue(Integer.parseInt(teamOneDataScore.get(i)));
+                                }
+                                for (int i = 0; i < panelTwo.getDataNameCount() - 1; i++) {
+                                    dataBase.child("/TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child(reformatDataNames(teamTwoDataName.get(i))).setValue(Integer.parseInt(teamTwoDataScore.get(i)));
+                                }
+                                for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
+                                    dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
+                                }
+                            } catch (DatabaseException FBE) {
+                                Log.e("firebase", "scoutingPage");
+                            } catch (IndexOutOfBoundsException IOB) {
+                                Log.e("ScoutingPage", "Index");
+                            }
+                        }
+                    }.start();
+                    sendExtras();
+                }
+            }
+        }      return super.onOptionsItemSelected(item);
     }
 
-    public void inflateFinalDataMenu(){
+
+    public void inflateFinalDataMenu() {
         final AlertDialog.Builder endDataBuilder = new AlertDialog.Builder(context);
         endDataBuilder.setCancelable(false);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View finalDataView = inflater.inflate(R.layout.finaldatapoints, null);
-        if(allianceScoreInt != null && allianceScoreInt != 0) {
+        if (allianceScoreInt != null && allianceScoreInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalScoreEditText)).setText(String.valueOf(allianceScoreInt));
         }
-        if(allianceFoulInt != null && allianceFoulInt != 0) {
+        if (allianceFoulInt != null && allianceFoulInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalFoulEditText)).setText(String.valueOf(allianceFoulInt));
         }
         endDataBuilder.setView(finalDataView);
@@ -295,14 +304,14 @@ public class ScoutingPage extends ActionBarActivity {
 
                 final EditText pilotNotesETOne = new EditText(context);
 
-                if(!teamOneNotes.equals("")) {
+                if (!teamOneNotes.equals("")) {
                     pilotNotesETOne.setText(teamOneNotes);
                 }
                 pilotNotesETOne.setTextColor(Color.BLACK);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("SuperNotes for team "+teamNumber)
+                builder.setTitle("SuperNotes for team " + teamNumber)
                         .setView(pilotNotesETOne)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -324,14 +333,14 @@ public class ScoutingPage extends ActionBarActivity {
 
                 final EditText pilotNotesETTwo = new EditText(context);
 
-                if(!teamTwoNotes.equals("")) {
+                if (!teamTwoNotes.equals("")) {
                     pilotNotesETTwo.setText(teamTwoNotes);
                 }
                 pilotNotesETTwo.setTextColor(Color.BLACK);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("Pilot Notes for "+teamNumber)
+                builder.setTitle("Pilot Notes for " + teamNumber)
                         .setView(pilotNotesETTwo)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -353,14 +362,14 @@ public class ScoutingPage extends ActionBarActivity {
 
                 final EditText pilotNotesETThree = new EditText(context);
 
-                if(!teamThreeNotes.equals("")) {
+                if (!teamThreeNotes.equals("")) {
                     pilotNotesETThree.setText(teamThreeNotes);
                 }
                 pilotNotesETThree.setTextColor(Color.BLACK);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("Pilot Notes for "+teamNumber)
+                builder.setTitle("Pilot Notes for " + teamNumber)
                         .setView(pilotNotesETThree)
                         .setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
@@ -377,6 +386,9 @@ public class ScoutingPage extends ActionBarActivity {
         });
     }
 }
+
+
+
 
 
 
