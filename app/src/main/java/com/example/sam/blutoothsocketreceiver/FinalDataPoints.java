@@ -47,8 +47,6 @@ public class FinalDataPoints extends ActionBarActivity {
     String alliance;
     String dataBaseUrl;
     String allianceScoreData, allianceFoulData;
-    Integer rotorNumAuto;
-    Integer rotorNumTele;
     TextView finalScore;
     EditText allianceScore, allianceFoul;
     JSONObject superExternalData;
@@ -276,12 +274,7 @@ public class FinalDataPoints extends ActionBarActivity {
         allianceFoulData = intent.getExtras().getString("allianceFoul");
         isMute = intent.getExtras().getBoolean("mute");
 
-        if(rotorNumAuto == 0) {
-            rotorNumAuto = null;
-        }
-        if(rotorNumTele == 0) {
-            rotorNumTele = null;
-        }
+
     }
 
     public void sendAfterMatchData(){

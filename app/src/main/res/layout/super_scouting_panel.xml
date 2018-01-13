@@ -16,24 +16,13 @@
 
     <!--Make as many of these counters as you need-->
     <com.example.sam.blutoothsocketreceiver.Counter
-        android:id="@+id/DataName"
+        android:id="@+id/Speed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="25dp"
         custom:dataName="Speed"
         custom:startingValue="2"
-        custom:max="3"
-        custom:min="1"
-        custom:increment="1"/>
-
-    <com.example.sam.blutoothsocketreceiver.Counter
-        android:id="@+id/GearControl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        custom:dataName="Agility"
-        custom:startingValue="2"
-        custom:max="3"
+        custom:max="4"
         custom:min="1"
         custom:increment="1"/>
 
@@ -42,20 +31,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        custom:dataName="Defense"
+        custom:dataName="Agility"
         custom:startingValue="2"
-        custom:max="3"
-        custom:min="1"
-        custom:increment="1"/>
-
-    <com.example.sam.blutoothsocketreceiver.Counter
-        android:id="@+id/BallControl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        custom:dataName="Stacking"
-        custom:startingValue="2"
-        custom:max="3"
+        custom:max="4"
         custom:min="1"
         custom:increment="1"/>
 
@@ -66,9 +44,21 @@
         android:paddingTop="10dp"
         custom:dataName="Defense"
         custom:startingValue="2"
-        custom:max="3"
+        custom:max="4"
         custom:min="1"
         custom:increment="1"/>
+
+    <com.example.sam.blutoothsocketreceiver.Counter
+        android:id="@+id/Stacking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        custom:dataName="Stacking"
+        custom:startingValue="2"
+        custom:max="4"
+        custom:min="1"
+        custom:increment="1"/>
+
 
 
 </LinearLayout>
