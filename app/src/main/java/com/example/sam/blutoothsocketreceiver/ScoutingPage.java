@@ -49,6 +49,7 @@ public class ScoutingPage extends ActionBarActivity {
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
     Boolean isMute;
+    Boolean canProceed;
     JSONObject object;
     Intent next;
     DatabaseReference dataBase;
@@ -106,8 +107,25 @@ public class ScoutingPage extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.finaldata, menu);
         return true;
     }
+    // work these two below
+    public boolean canProceed(){
+        Boolean canProceed;
+        SuperScoutingPanel panelone = new SuperScoutingPanel(R.id.panelOne);
+        for(int i = 0; i < 4; i ++){
+            if()
+        }
+    return canProceed();
+    }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public void nextClicked(View view){
+        if(canProceed() == ){
+
+        }
+
+
+         //The next Button, to see if boolean r valid
+    }
+   /* @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -154,6 +172,7 @@ public class ScoutingPage extends ActionBarActivity {
             }
         }      return super.onOptionsItemSelected(item);
     }
+    */
 
 
     public void inflateFinalDataMenu() {

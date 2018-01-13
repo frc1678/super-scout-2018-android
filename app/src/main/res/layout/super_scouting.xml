@@ -38,22 +38,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal">
+
         <Button
             android:id="@+id/Lev"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Lev" />
-    </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignleft="@id/Lev">
-        <Button
-            android:id="@+id/Force"
+        <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Force" />
+            android:layout_marginLeft="100dp">
+
+            <Button
+                android:id="@+id/Force"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Force" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="100dp">
+
+                <Button
+                    android:id="@+id/Boost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Boost" />
+            </RelativeLayout>
+        </RelativeLayout>
     </RelativeLayout>
+
+
 
 </LinearLayout>
