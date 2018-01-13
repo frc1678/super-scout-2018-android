@@ -273,13 +273,6 @@ public class FinalDataPoints extends ActionBarActivity {
         allianceScoreData = intent.getExtras().getString("allianceScore");
         allianceFoulData = intent.getExtras().getString("allianceFoul");
         isMute = intent.getExtras().getBoolean("mute");
-
-        if(rotorNumAuto == 0) {
-            rotorNumAuto = null;
-        }
-        if(rotorNumTele == 0) {
-            rotorNumTele = null;
-        }
     }
 
     public void sendAfterMatchData(){
