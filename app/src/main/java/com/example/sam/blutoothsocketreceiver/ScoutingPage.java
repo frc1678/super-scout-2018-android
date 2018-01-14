@@ -17,8 +17,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
@@ -41,6 +43,7 @@ public class ScoutingPage extends ActionBarActivity {
     String alliance;
     String dataBaseUrl;
     String allianceScoreData, allianceFoulData;
+    String NextString;
     TextView teamNumberOneTextview;
     TextView teamNumberTwoTextview;
     TextView teamNumberThreeTextview;
@@ -110,17 +113,19 @@ public class ScoutingPage extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.finaldata, menu);
         return true;
     }
+
     // work these two below
-    public Boolean canProceed(){
+    public Boolean canProceed() {
         Boolean canProceed = false;
         ArrayList<String> dataNames = new ArrayList<>(Arrays.asList("Speed", "Agility", "Defense"));
         SuperScoutingPanel panelone = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelOne);
         SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelTwo);
         SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
-        for(int i = 0; i < 2; i ++){
-            if(panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) || panelone.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i)) || paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) {
+        for (int i = 0; i < 3; i++) {
+            if ((panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i))) || (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i)))) {
                 canProceed = false;
-            }else{
+
+            } else {
                 canProceed = true;
             }
         }
@@ -128,7 +133,7 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
     //The next Button, to see if boolean r valid
-   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -165,12 +170,17 @@ public class ScoutingPage extends ActionBarActivity {
                     }
                 }.start();
                 sendExtras();
-            }else{
-                //yourToast
+            } else {
+                //toast
+                final String NextString = "Can't have the same ranking values in each datapoints!";
+
+                Toast.makeText(getApplicationContext(), NextString, Toast.LENGTH_LONG).show();
+
+
             }
 
         }
-       return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -404,10 +414,14 @@ public class ScoutingPage extends ActionBarActivity {
             }
         });
     }
+
+
+    public void vaultDialogs() {
+        final Dialog forceDialog = new Dialog(context); // Context, this, etc.
+        forceDialog.setContentView(R.layout.force_dialog);
+        forceDialog.setTitle(R.string.);
+        forceDialog.show();
+    }
+
 }
-
-
-
-
-
 
