@@ -228,7 +228,7 @@ public class MainActivity extends ActionBarActivity {
 //                }
                 else {
                     commitSharedPreferences();
-                    Intent intent = new Intent(context, FieldSetup.class);
+                    Intent intent = new Intent(context, FieldSetupPage.class);
                     intent.putExtra("matchNumber", numberOfMatch.getText().toString());
                     intent.putExtra("teamNumberOne", teamNumberOne.getText().toString());
                     intent.putExtra("teamNumberTwo", teamNumberTwo.getText().toString());

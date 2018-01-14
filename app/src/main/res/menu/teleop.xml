@@ -4,22 +4,6 @@
 
     <item
         android:id ="@+id/teleop"
-        android:title="scout"
+        android:title="Teleop"
         app:showAsAction="always"/>
-    <item
-        android:id="@+id/action_settings"
-        app:showAsAction="always"
-        android:title="Settings">
-        <menu>
-            <item
-                android:id="@+id/action_override"
-                android:title="Override Match and Team Number"
-                app:showAsAction = "always"/>
-            <item
-                android:id="@+id/changeAlliance"
-                android:title="Change Alliance"
-                app:showAsAction = "always"/>
-
-        </menu>
-    </item>
 </menu>
