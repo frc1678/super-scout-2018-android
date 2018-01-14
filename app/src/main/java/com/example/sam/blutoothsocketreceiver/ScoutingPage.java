@@ -28,6 +28,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
+
 public class ScoutingPage extends ActionBarActivity {
     Activity context;
     String numberOfMatch;
@@ -110,7 +112,9 @@ public class ScoutingPage extends ActionBarActivity {
     // work these two below
     public boolean canProceed(){
         Boolean canProceed;
-        SuperScoutingPanel panelone = new SuperScoutingPanel(R.id.panelOne);
+        SuperScoutingPanel panelone = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelOne);
+        SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
+        SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
         for(int i = 0; i < 4; i ++){
             if()
         }
@@ -118,6 +122,7 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
     public void nextClicked(View view){
+        if(panelOne)
         if(canProceed() == ){
 
         }
