@@ -62,6 +62,7 @@ public class FinalDataPoints extends ActionBarActivity {
     DatabaseReference firebaseRef;
     Intent intent;
 
+    //TODO: In xml, move switches to the side of the texts (for FTB and DAQ)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -274,7 +275,7 @@ public class FinalDataPoints extends ActionBarActivity {
         allianceFoulData = intent.getExtras().getString("allianceFoul");
         isMute = intent.getExtras().getBoolean("mute");
 
-        }
+    }
 
     public void sendAfterMatchData(){
         if (alliance.equals("Blue Alliance")) {
