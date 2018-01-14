@@ -27,30 +27,8 @@ public class SuperScoutingPanel extends Fragment {
 
     Boolean isRed;
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // think of another method to make the next button work
-        Speed = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-        Stacking = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-       // BallControl = new ArrayList<>(Arrays.asList(3, 0, 0, 0, 0));
-        Agility = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-        Defense = new ArrayList<>(Arrays.asList(3, 0, 0, 0, 0));
-
-        return inflater.inflate(R.layout.super_scouting_panel, container, false);
-
-    }
-     */
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        // think of another method to make the next button work
-        Speed = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-        Stacking = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-        // BallControl = new ArrayList<>(Arrays.asList(3, 0, 0, 0, 0));
-        Agility = new ArrayList<>(Arrays.asList(0, 0, 3, 0, 0));
-        Defense = new ArrayList<>(Arrays.asList(3, 0, 0, 0, 0));
 
         return inflater.inflate(R.layout.super_scouting_panel, container, false);
     }
@@ -76,7 +54,7 @@ public class SuperScoutingPanel extends Fragment {
     }
 
 
-    public Map getData() {
+    public Map<String, Integer> getData() {
         Map<String, Integer> mapOfData = new HashMap<>();   //Make this a LinkedHashMap if you want to make everything 0's when speed is 0
         LinearLayout rootLayout = (LinearLayout) getView();
         Counter counter;
@@ -89,16 +67,6 @@ public class SuperScoutingPanel extends Fragment {
 
         return mapOfData;
     }
-
-    public Map<String, Integer> getMap(){
-        Integer Speed;
-        Integer Agility;
-        Integer Defense;
-        Integer Stacking;
-        //generate map
-        return getMap();
-    }
-
 
 
 }

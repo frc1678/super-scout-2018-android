@@ -27,8 +27,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
+import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
 public class ScoutingPage extends ActionBarActivity {
     Activity context;
@@ -51,7 +53,6 @@ public class ScoutingPage extends ActionBarActivity {
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
     Boolean isMute;
-    Boolean canProceed;
     JSONObject object;
     Intent next;
     DatabaseReference dataBase;
@@ -110,27 +111,24 @@ public class ScoutingPage extends ActionBarActivity {
         return true;
     }
     // work these two below
-    public boolean canProceed(){
-        Boolean canProceed;
+    public Boolean canProceed(){
+        Boolean canProceed = false;
+        ArrayList<String> dataNames = new ArrayList<>(Arrays.asList("Speed", "Agility", "Defense"));
         SuperScoutingPanel panelone = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelOne);
-        SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
+        SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelTwo);
         SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
-        for(int i = 0; i < 4; i ++){
-            if()
+        for(int i = 0; i < 2; i ++){
+            if(panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) || panelone.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i)) || paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) {
+                canProceed = false;
+            }else{
+                canProceed = true;
+            }
         }
-    return canProceed();
+        return canProceed;
     }
 
-    public void nextClicked(View view){
-        if(panelOne)
-        if(canProceed() == ){
-
-        }
-
-
-         //The next Button, to see if boolean r valid
-    }
-   /* @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    //The next Button, to see if boolean r valid
+   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -141,43 +139,40 @@ public class ScoutingPage extends ActionBarActivity {
         }
 
         if (id == R.id.finalNext) {
-            boolean moreThanOne = false;
-            for (int a = 1; a <= 3; a++) {
-                if (SuperScoutingPanel.Speed.get(a) > 1 || SuperScoutingPanel.Agility.get(a) > 1 || SuperScoutingPanel.Defense.get(a) > 1 || SuperScoutingPanel.Stacking.get(a) > 1) {
-                    moreThanOne = true;
-                }
-
-                if (!moreThanOne) {
-                    final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
-                    final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
-                    final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
-                    listDataValues();
-                    new Thread() {
-                        @Override
-                        public void run() {
-                            try {
-                                for (int i = 0; i < panelOne.getDataNameCount() - 1; i++) {
-                                    dataBase.child("/TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child(reformatDataNames(teamOneDataName.get(i))).setValue(Integer.parseInt(teamOneDataScore.get(i)));
-                                }
-                                for (int i = 0; i < panelTwo.getDataNameCount() - 1; i++) {
-                                    dataBase.child("/TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child(reformatDataNames(teamTwoDataName.get(i))).setValue(Integer.parseInt(teamTwoDataScore.get(i)));
-                                }
-                                for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
-                                    dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
-                                }
-                            } catch (DatabaseException FBE) {
-                                Log.e("firebase", "scoutingPage");
-                            } catch (IndexOutOfBoundsException IOB) {
-                                Log.e("ScoutingPage", "Index");
+            if (canProceed()) {
+                final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
+                final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
+                final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
+                listDataValues();
+                new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            for (int i = 0; i < panelOne.getDataNameCount() - 1; i++) {
+                                dataBase.child("/TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child(reformatDataNames(teamOneDataName.get(i))).setValue(Integer.parseInt(teamOneDataScore.get(i)));
                             }
+                            for (int i = 0; i < panelTwo.getDataNameCount() - 1; i++) {
+                                dataBase.child("/TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child(reformatDataNames(teamTwoDataName.get(i))).setValue(Integer.parseInt(teamTwoDataScore.get(i)));
+                            }
+                            for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
+                                dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
+                            }
+                        } catch (DatabaseException FBE) {
+                            Log.e("firebase", "scoutingPage");
+                        } catch (IndexOutOfBoundsException IOB) {
+                            Log.e("ScoutingPage", "Index");
                         }
-                    }.start();
-                    sendExtras();
-                }
+                    }
+                }.start();
+                sendExtras();
+            }else{
+                //yourToast
             }
-        }      return super.onOptionsItemSelected(item);
+
+        }
+       return super.onOptionsItemSelected(item);
     }
-    */
+
 
 
     public void inflateFinalDataMenu() {
