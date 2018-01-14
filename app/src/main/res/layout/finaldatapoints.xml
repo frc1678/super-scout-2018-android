@@ -37,4 +37,36 @@
         android:gravity="center"
         android:textSize="25sp" />
 
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/finalFoulEditText"
+    android:layout_centerHorizontal="true">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/didFaceBoss"
+        android:clickable="false"
+        android:text="Did Face the Boss"
+        android:textSize="25sp"
+        android:layout_alignParentLeft="@id/didFaceBossBoolean"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/didFaceBossBoolean"
+        android:layout_alignParentRight="@id/didFaceBoss"/>
+
+    
+</RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+
+
+
+
 </RelativeLayout>
