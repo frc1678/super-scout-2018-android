@@ -28,8 +28,6 @@ public class FieldSetupPage extends AppCompatActivity{
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         context = this;
         intent = getIntent();
-        bundle = intent.
-
 
     }
 
@@ -50,11 +48,14 @@ public class FieldSetupPage extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.teleop) {
-            if (true/* TODO: put in check condition for plate configuration being entered*/){
-                Toast.makeText(context, "This Match Does Not Exist!", Toast.LENGTH_LONG).show();
+            if (false/* TODO: put in check condition for plate configuration being entered*/){
+                Toast.makeText(context, "Select a configuration for each plate!", Toast.LENGTH_LONG).show();
             } else {
                 //TODO: make intent for scout (and pass intent info from mainactivity here)
-
+                Intent teleopIntent = new Intent(context, ScoutingPage.class);
+                teleopIntent.putExtras(intent);
+                //TODO: Add extras from this activity.
+                startActivity(teleopIntent);
             }
 
 

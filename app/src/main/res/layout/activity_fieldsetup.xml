@@ -2,12 +2,100 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:text="TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="131dp"
-        android:id="@+id/textView" />
+    <View
+        android:id="@+id/centerView"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true" />
+
+    <View
+        android:id="@+id/blueAllianceColorView"
+        android:background="#cc006aff"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@+id/centerView" />
+
+    <View
+        android:id="@+id/redAllianceColorView"
+        android:background="#ccff0000"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toRightOf="@+id/centerView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="start|center_vertical"
+            android:id="@+id/blueSwitch">
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@string/switch_distance"
+                android:id="@+id/blueTopPlateButton"/>
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@string/switch_distance"
+                android:id="@+id/blueBottomPlateButton"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:id="@+id/scale">
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="70dp"
+                android:id="@+id/scaleTopPlateButton"/>
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="70dp"
+                android:id="@+id/scaleBottomPlateButton"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:orientation="vertical"
+            android:id="@+id/redSwitch">
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@string/switch_distance"
+                android:id="@+id/redTopPlateButton"/>
+
+            <Button
+                android:layout_width="@string/plate_size"
+                android:layout_height="@string/plate_size"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@string/switch_distance"
+                android:id="@+id/redBottomPlateButton"/>
+
+        </LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
