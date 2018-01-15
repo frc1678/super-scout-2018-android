@@ -2,6 +2,8 @@ package com.example.sam.blutoothsocketreceiver;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.view.View;
 import android.widget.Button;
 
@@ -27,15 +29,15 @@ public class PlateConfig {
 
     Map<View, String> configMap;
 
-    int red;
-    int blue;
+    String red;
+    String blue;
 
     public PlateConfig(Context context, boolean isRed) {
         this.context = context;
         this.isRed = isRed;
 
-        red = 27391; //006aff
-        blue = 16711680; //ff0000
+        red = "#006aff"; //006aff
+        blue = "#ff0000"; //ff0000
 
         configMap = new HashMap<>();
 
@@ -65,21 +67,21 @@ public class PlateConfig {
 
         if(isRed) {
             if(configMap.get(button).equals("red")) {
-                button.setBackgroundColor(blue);
+                button.setBackgroundColor(Color.parseColor(blue));
                 configMap.put(button, "blue");
                 oppositeButton = "red";
             } else {
-                button.setBackgroundColor(red);
+                button.setBackgroundColor(Color.parseColor(red));
                 configMap.put(button, "red");
                 oppositeButton = "blue";
             }
         } else {
             if(configMap.get(button).equals("blue")) {
-                button.setBackgroundColor(red);
+                button.setBackgroundColor(Color.parseColor(red));
                 configMap.put(button, "red");
                 oppositeButton = "red";
             } else {
-                button.setBackgroundColor(blue);
+                button.setBackgroundColor(Color.parseColor(blue));
                 configMap.put(button, "blue");
                 oppositeButton = "blue";
             }

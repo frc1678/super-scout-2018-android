@@ -107,7 +107,7 @@ public class FieldSetupPage extends AppCompatActivity{
 
     public void plateButtonPress(View plateButton)
     {
-
+        plateConfig.swapColor(plateButton);
 
 
         /* TODO: REMOVE
