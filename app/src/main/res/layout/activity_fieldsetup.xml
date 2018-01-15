@@ -39,6 +39,7 @@
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/switch_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/blueTopPlateButton"/>
 
             <Button
@@ -46,6 +47,7 @@
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/switch_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/blueBottomPlateButton"/>
 
         </LinearLayout>
@@ -62,14 +64,16 @@
                 android:layout_width="@dimen/plate_button"
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="70dp"
+                android:layout_marginBottom="@dimen/scale_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/scaleTopPlateButton"/>
 
             <Button
                 android:layout_width="@dimen/plate_button"
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="70dp"
+                android:layout_marginTop="@dimen/scale_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/scaleBottomPlateButton"/>
 
         </LinearLayout>
@@ -87,6 +91,7 @@
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/switch_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/redTopPlateButton"/>
 
             <Button
@@ -94,6 +99,7 @@
                 android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/switch_separation"
+                android:onClick="plateButtonPress"
                 android:id="@+id/redBottomPlateButton"/>
 
         </LinearLayout>
