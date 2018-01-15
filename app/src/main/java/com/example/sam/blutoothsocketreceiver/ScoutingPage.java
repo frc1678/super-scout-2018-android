@@ -416,17 +416,21 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
 
-    public void forceDialogs() {
+    public void ForceDialogs(View view) {
         Button ForceButton;
         ForceButton = (Button)findViewById(R.id.Force);
-        ForceButton.setOnClickListener(new View.OnClickListener() {
-            public void Onclick(View v) {
-
-            }
-        };
         final Dialog forceDialog = new Dialog(context); // Context, this, etc.
         forceDialog.setContentView(R.layout.force_dialog);
         forceDialog.setTitle("Force");
+        forceDialog.show();
+    }
+
+    public void BoostDialogs(View view) {
+        Button BoostButton;
+        BoostButton = (Button)findViewById(R.id.Force);
+        final Dialog forceDialog = new Dialog(context); // Context, this, etc.
+        forceDialog.setContentView(R.layout.boost_dialog);
+        forceDialog.setTitle("Boost");
         forceDialog.show();
     }
 
