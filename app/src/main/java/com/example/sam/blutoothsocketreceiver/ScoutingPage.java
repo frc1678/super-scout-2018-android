@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
@@ -116,18 +117,17 @@ public class ScoutingPage extends ActionBarActivity {
 
     // work these two below
     public Boolean canProceed() {
-        Boolean canProceed = false;
+        Boolean canProceed = true;
         ArrayList<String> dataNames = new ArrayList<>(Arrays.asList("Speed", "Agility", "Defense"));
         SuperScoutingPanel panelone = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelOne);
         SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelTwo);
         SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
         for (int i = 0; i < 3; i++) {
-            if ((panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i))) || (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i)))) {
-                canProceed = false;
-
-            } else {
-                canProceed = true;
-            }
+            if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) || (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) ){
+            canProceed = false;
+            return canProceed;}
+           /* if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i))){
+            }*/
         }
         return canProceed;
     }
@@ -135,6 +135,8 @@ public class ScoutingPage extends ActionBarActivity {
     //The next Button, to see if boolean r valid
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
+
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
@@ -434,5 +436,40 @@ public class ScoutingPage extends ActionBarActivity {
         forceDialog.show();
     }
 
+    public void Lev(View view) {
+        final ToggleButton Levtoggle = (ToggleButton) findViewById(R.id.Lev);
+        Levtoggle.setChecked(true);
+    }
+
+    public void forceone(View view){
+        final ToggleButton forceonetoggle = (ToggleButton) findViewById(R.id.forceone);
+        forceonetoggle.setChecked(true);
+    }
+
+    public void forcetwo(View view) {
+        final ToggleButton forcetwotoggle = (ToggleButton) findViewById(R.id.forcetwo);
+        forcetwotoggle.setChecked(true);
+    }
+
+    public void forcethree(View view) {
+        final ToggleButton forcethreetoggle = (ToggleButton) findViewById(R.id.forcethree);
+        forcethreetoggle.setChecked(true);
+    }
+
+    public void boostone(View view) {
+        final ToggleButton boostonetoggle = (ToggleButton) findViewById(R.id.boostone);
+        boostonetoggle.setChecked(true);
+    }
+
+    public void boosttwo(View view) {
+        final ToggleButton boosttwotoggle = (ToggleButton) findViewById(R.id.boosttwo);
+        boosttwotoggle.setChecked(true);
+    }
+
+    public void boostthree(View view) {
+        final ToggleButton boostthreetoggle = (ToggleButton) findViewById(R.id.boostthree);
+        boostthreetoggle.setChecked(true);
+    }
 }
+
 

@@ -54,11 +54,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp">
 
-            <Button
+            <ToggleButton
                 android:id="@+id/Lev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lev" />
+                android:textOff="Lev Off"
+                android:textOn="lev On"
+                android:checked="false"
+
+                />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
