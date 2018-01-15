@@ -80,7 +80,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/didAutoQuest"
         android:clickable="false"
-        android:text="Did AutoQuest"
+        android:text="Did Auto Quest"
         android:layout_below="@+id/didFaceBossBoolean"
         android:textSize="25sp"
         android:gravity="center"
@@ -109,7 +109,7 @@
         android:layout_height="wrap_content"
         android:clickable="false"
         android:textSize="25sp"
-        android:text="PowerUps in Vault"
+        android:text="Cubes in Vault"
         android:layout_centerHorizontal="true"
         />
 

@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+//TODO: integrate firebase ability (left off 4:29 1/14/18)
 public class ScoutingPage extends ActionBarActivity {
     Activity context;
     String numberOfMatch;
@@ -48,6 +48,8 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamThreeDataScore;
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
+    Boolean didAutoQuest;
+    Boolean didFaceBoss;
     Boolean isMute;
     JSONObject object;
     Intent next;
