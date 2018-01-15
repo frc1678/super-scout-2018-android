@@ -172,7 +172,7 @@ public class ScoutingPage extends ActionBarActivity {
                 sendExtras();
             } else {
                 //toast
-                final String NextString = "Can't have the same ranking values in each datapoints!";
+                final String NextString = "Teams cannot have the same ranking values!";
 
                 Toast.makeText(getApplicationContext(), NextString, Toast.LENGTH_LONG).show();
 
@@ -416,10 +416,17 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
 
-    public void vaultDialogs() {
+    public void forceDialogs() {
+        Button ForceButton;
+        ForceButton = (Button)findViewById(R.id.Force);
+        ForceButton.setOnClickListener(new View.OnClickListener() {
+            public void Onclick(View v) {
+
+            }
+        };
         final Dialog forceDialog = new Dialog(context); // Context, this, etc.
         forceDialog.setContentView(R.layout.force_dialog);
-        forceDialog.setTitle(R.string.);
+        forceDialog.setTitle("Force");
         forceDialog.show();
     }
 

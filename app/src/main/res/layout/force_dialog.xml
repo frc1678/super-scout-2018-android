@@ -2,32 +2,46 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
     <TextView
-        android:id="@+id/dialog_info"
+        android:id="@+id/ForceInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="dialog_text"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@id/dialog_info"/>
+        android:text="Force" />
 
     <Button
-        android:id="@+id/dialog_cancel"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.50"
-        android:background=""
-        android:text="Cancel"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forceone"
+        android:gravity="center_horizontal"
+        android:text="1"
+        android:layout_below="@+id/ForceInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
 
     <Button
-        android:id="@+id/dialog_ok"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.50"
-        android:background=""
-        android:text="Agree"/>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forcetwo"
+        android:gravity="center_horizontal"
+        android:text="2"
+        android:layout_below="@+id/ForceInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/forcethree"
+        android:gravity="center_horizontal"
+        android:text="3"
+        android:layout_below="@+id/ForceInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="210dp" />
 
 
-</RelativeLayout>
+
+
+
+
+    </RelativeLayout>

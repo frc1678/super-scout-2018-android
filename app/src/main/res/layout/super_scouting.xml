@@ -42,10 +42,12 @@
 
 
         <Button
-            android:id="@+id/Lev"
+            android:id="@+id/Force"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Lev" />
+            android:text="Force"
+            android:onClick="Force"
+            />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -53,10 +55,10 @@
             android:layout_marginLeft="100dp">
 
             <Button
-                android:id="@+id/Force"
+                android:id="@+id/Lev"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Force" />
+                android:text="Lev" />
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
