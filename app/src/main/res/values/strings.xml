@@ -1,6 +1,4 @@
 <resources>
-    <string name="plate_size">110dp</string>
-    <string name="switch_distance">20dp</string>
     <string name="app_name">BlutoothSocketReceiver</string>
 
     <string name="hello_world">Hello world!</string>

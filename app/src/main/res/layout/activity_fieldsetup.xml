@@ -35,17 +35,17 @@
             android:id="@+id/blueSwitch">
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@string/switch_distance"
+                android:layout_marginBottom="@dimen/switch_separation"
                 android:id="@+id/blueTopPlateButton"/>
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@string/switch_distance"
+                android:layout_marginTop="@dimen/switch_separation"
                 android:id="@+id/blueBottomPlateButton"/>
 
         </LinearLayout>
@@ -59,15 +59,15 @@
             android:id="@+id/scale">
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="70dp"
                 android:id="@+id/scaleTopPlateButton"/>
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="70dp"
                 android:id="@+id/scaleBottomPlateButton"/>
@@ -83,17 +83,17 @@
             android:id="@+id/redSwitch">
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@string/switch_distance"
+                android:layout_marginBottom="@dimen/switch_separation"
                 android:id="@+id/redTopPlateButton"/>
 
             <Button
-                android:layout_width="@string/plate_size"
-                android:layout_height="@string/plate_size"
+                android:layout_width="@dimen/plate_button"
+                android:layout_height="@dimen/plate_button"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@string/switch_distance"
+                android:layout_marginTop="@dimen/switch_separation"
                 android:id="@+id/redBottomPlateButton"/>
 
         </LinearLayout>
