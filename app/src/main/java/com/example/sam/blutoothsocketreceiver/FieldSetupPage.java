@@ -24,15 +24,17 @@ public class FieldSetupPage extends AppCompatActivity{
     Activity context;
     Intent intent;
     Bundle bundle;
+    /* TODO: Remove:
     Button blueTopPlateButton;
     Button blueBottomPlateButton;
     Button scaleTopPlateButton;
     Button scaleBottomPlateButton;
     Button redTopPlateButton;
     Button redBottomPlateButton;
-    int red;
-    int blue;
     Map<String, Map<View, String>> configurationMap; //TODO: Convert string to custom object w/ 3 values(?)
+    */
+
+    PlateConfig plateConfig;
     boolean isRed; //TODO: Get value from extras.
 
     @Override
@@ -43,6 +45,9 @@ public class FieldSetupPage extends AppCompatActivity{
         context = this;
         intent = getIntent();
 
+        plateConfig = new PlateConfig(context, isRed);
+
+        /*TODO: REMOVE:
         configurationMap = new HashMap<>();
         Map blueSwitchMap = new HashMap<View, String>();
         Map scaleMap = new HashMap<View, String>();
@@ -63,9 +68,7 @@ public class FieldSetupPage extends AppCompatActivity{
         redSwitchMap.put(redTopPlateButton, "noColor");
         redBottomPlateButton = (Button) findViewById(R.id.redBottomPlateButton);
         redSwitchMap.put(redBottomPlateButton, "noColor");
-
-        red = 27391; //006aff
-        blue = 16711680; //ff0000
+        */
 
     }
 
@@ -104,6 +107,10 @@ public class FieldSetupPage extends AppCompatActivity{
 
     public void plateButtonPress(View plateButton)
     {
+
+
+
+        /* TODO: REMOVE
         if(isRed) {
             if(plateButtonMap.get(plateButton).equals("red")) {
                 plateButton.setBackgroundColor(blue);
@@ -114,10 +121,11 @@ public class FieldSetupPage extends AppCompatActivity{
                 plateButtonMap.put(plateButton, "red");
                 //TODO: Set color of opposite button.
             }
-        }
+        } */
 
 
-        /*switch(view.getId()) //TODO: Complete the action for each button.
+        /* TODO: REMOVE
+        switch(view.getId()) //TODO: Complete the action for each button.
         {
             case R.id.blueTopPlateButton:
                 break;
