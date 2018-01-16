@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ScaleDrawable;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,6 +33,9 @@ public class PlateConfig {
     String red;
     String blue;
 
+    //TODO: TEMP
+    GradientDrawable gd;
+
     public PlateConfig(Context context, boolean isRed) {
         this.context = context;
         this.isRed = isRed;
@@ -53,6 +57,16 @@ public class PlateConfig {
         configMap.put(redTopPlateButton, "noColor");
         redBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.redBottomPlateButton);
         configMap.put(redBottomPlateButton, "noColor");
+
+        //TODO: TEMPORARY
+        gd = new GradientDrawable();
+        gd.setColor(0xFF006aff); // Changes this drawbale to use a single color instead of a gradient
+        gd.setCornerRadius(1);
+        gd.setStroke(5, 0xFF000000);
+
+        gd = new ScaleDrawable(gd, 0, w, h).getDrawable();
+
+        gd.setBounds(0, 0, w, h);
     }
 
     public HashMap<String, String/*TODO: Figure out what this needs to be (ex Gson, etc.)*/> getConfig() {
@@ -62,9 +76,9 @@ public class PlateConfig {
 
     public void swapColor(View button) {
         //TODO: This swaps color of two buttons.
-
+        button.setBackgroundDrawable(gd);
         String oppositeButton;
-
+        /* TODO: TEMPORARILY COMMENTED OUT
         if(isRed) {
             if(configMap.get(button).equals("red")) {
                 button.setBackgroundColor(Color.parseColor(blue));
@@ -107,5 +121,6 @@ public class PlateConfig {
             case R.id.redBottomPlateButton:
                 break;
         }
+        */
     }
 }
