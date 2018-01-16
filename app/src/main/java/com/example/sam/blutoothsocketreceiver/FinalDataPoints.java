@@ -300,18 +300,19 @@ public class FinalDataPoints extends ActionBarActivity {
             firebaseRef.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(Integer.parseInt(allianceFoul.getText().toString()));
             firebaseRef.child("/Matches").child(numberOfMatch).child("blueDidFaceBoss").setValue(facedTheBoss.isChecked());
             firebaseRef.child("/Matches").child(numberOfMatch).child("blueDidAutoQuest").setValue(completedAutoQuest.isChecked());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Boost").setValue(boostCounter.getDataValue());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Levitate").setValue(levitateCounter.getDataValue());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Force").setValue(forceCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
 
         } else if (alliance.equals("Red Alliance")) {
             firebaseRef.child("/Matches").child(numberOfMatch).child("redScore").setValue(Integer.parseInt(allianceScore.getText().toString()));
             firebaseRef.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(Integer.parseInt(allianceFoul.getText().toString()));
             firebaseRef.child("/Matches").child(numberOfMatch).child("redDidFaceBoss").setValue(facedTheBoss.isChecked());
             firebaseRef.child("/Matches").child(numberOfMatch).child("redDidAutoQuest").setValue(completedAutoQuest.isChecked());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Boost").setValue(boostCounter.getDataValue());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Levitate").setValue(levitateCounter.getDataValue());
-            firebaseRef.child("/Matches").child(numberOfMatch).child("Force").setValue(forceCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
+            firebaseRef.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
+
         }
     }
 }
