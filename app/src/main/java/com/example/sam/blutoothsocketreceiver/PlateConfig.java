@@ -18,29 +18,32 @@ import java.util.Map;
 //This class is for getting and setting the color of plates in FieldSetup.
 public class PlateConfig {
 
-    Context context;
-    boolean isRed;
+    private Context context;
+    private boolean isRed;
 
-    Button blueTopPlateButton;
-    Button blueBottomPlateButton;
-    Button scaleTopPlateButton;
-    Button scaleBottomPlateButton;
-    Button redTopPlateButton;
-    Button redBottomPlateButton;
+    private Button blueTopPlateButton;
+    private Button blueBottomPlateButton;
+    private Button scaleTopPlateButton;
+    private Button scaleBottomPlateButton;
+    private Button redTopPlateButton;
+    private Button redBottomPlateButton;
 
-    Map<View, String> configMap;
+    private Map<View, String> configMap;
 
-    String red;
-    String blue;
+    private String red;
+    private String blue;
 
-    //TODO: TEMP
-    GradientDrawable gd;
+    //TODO: Not being used now, reimplement if time available.
+    /*
+    GradientDrawable blueDrawable;
+    GradientDrawable redDrawable;
+    */
 
     public PlateConfig(Context context, boolean isRed) {
         this.context = context;
         this.isRed = isRed;
 
-        red = "#006aff"; //006aff
+        red = "#0000ff"; //0000ff
         blue = "#ff0000"; //ff0000
 
         configMap = new HashMap<>();
@@ -58,15 +61,18 @@ public class PlateConfig {
         redBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.redBottomPlateButton);
         configMap.put(redBottomPlateButton, "noColor");
 
-        //TODO: TEMPORARY
-        gd = new GradientDrawable();
-        gd.setColor(0xFF006aff); // Changes this drawbale to use a single color instead of a gradient
-        gd.setCornerRadius(1);
-        gd.setStroke(5, 0xFF000000);
+        //TODO: Not being used now, reimplement if time available.
+        /* //Drawables used for setting border on buttons.
+        blueDrawable = new GradientDrawable();
+        blueDrawable.setColor(0xFF0000FF); // Changes this drawable to use a single color instead of a gradient
+        blueDrawable.setCornerRadius(1);
+        blueDrawable.setStroke(7, 0xFF252525);
 
-        gd = new ScaleDrawable(gd, 0, w, h).getDrawable();
-
-        gd.setBounds(0, 0, w, h);
+        redDrawable = new GradientDrawable();
+        redDrawable.setColor(0xFFFF0000); // Changes this drawable to use a single color instead of a gradient
+        redDrawable.setCornerRadius(1);
+        redDrawable.setStroke(7, 0xFF252525);
+        */
     }
 
     public HashMap<String, String/*TODO: Figure out what this needs to be (ex Gson, etc.)*/> getConfig() {
@@ -76,26 +82,29 @@ public class PlateConfig {
 
     public void swapColor(View button) {
         //TODO: This swaps color of two buttons.
-        button.setBackgroundDrawable(gd);
         String oppositeButton;
-        /* TODO: TEMPORARILY COMMENTED OUT
+
         if(isRed) {
             if(configMap.get(button).equals("red")) {
                 button.setBackgroundColor(Color.parseColor(blue));
+                //button.setBackgroundDrawable(blueDrawable);
                 configMap.put(button, "blue");
                 oppositeButton = "red";
             } else {
                 button.setBackgroundColor(Color.parseColor(red));
+                //button.setBackgroundDrawable(blueDrawable);
                 configMap.put(button, "red");
                 oppositeButton = "blue";
             }
         } else {
             if(configMap.get(button).equals("blue")) {
                 button.setBackgroundColor(Color.parseColor(red));
+                //button.setBackgroundDrawable(redDrawable);
                 configMap.put(button, "red");
                 oppositeButton = "red";
             } else {
                 button.setBackgroundColor(Color.parseColor(blue));
+                //button.setBackgroundDrawable(redDrawable);
                 configMap.put(button, "blue");
                 oppositeButton = "blue";
             }
@@ -121,6 +130,6 @@ public class PlateConfig {
             case R.id.redBottomPlateButton:
                 break;
         }
-        */
+
     }
 }

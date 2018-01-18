@@ -10,14 +10,14 @@
 
     <View
         android:id="@+id/blueAllianceColorView"
-        android:background="#cc006aff"
+        android:background="#aa0000ff"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@+id/centerView" />
 
     <View
         android:id="@+id/redAllianceColorView"
-        android:background="#ccff0000"
+        android:background="#aaff0000"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toRightOf="@+id/centerView" />
