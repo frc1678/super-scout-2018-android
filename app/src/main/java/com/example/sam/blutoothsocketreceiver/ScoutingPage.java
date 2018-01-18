@@ -317,7 +317,15 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
     public String reformatDataNames(String dataName) {
-        return ("rank" + dataName.replace(" ", ""));
+        String reformattedDataName = "";
+        //Log.d("dataname", dataName);
+
+        if(!dataName.equals("Good Decision") && !dataName.equals("Bad Decision")){
+            reformattedDataName = "rank" + dataName.replace(" ", "");
+        }else if(dataName.equals("Good Decision") || dataName.equals("Bad Decision")){
+            reformattedDataName = "num" + dataName.replace(" ", "");
+        }
+        return reformattedDataName;
     }
 
     public void initializeTeamTextViews() {
