@@ -7,6 +7,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Build;
@@ -34,6 +35,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.example.sam.blutoothsocketreceiver.R.id.Boost;
+import static com.example.sam.blutoothsocketreceiver.R.id.Force;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
@@ -66,11 +69,52 @@ public class ScoutingPage extends ActionBarActivity {
     String teamOneNotes;
     String teamTwoNotes;
     String teamThreeNotes;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+/*
+        SharedPreferences.Editor force = getSharedPreferences(Force, MODE_PRIVATE).edit();
+        force.putBoolean("1", true);
+        force.putBoolean("2", true);
+        force.putBoolean("3", true);
+        force.apply();
+
+        SharedPreferences.Editor boost = getSharedPreferences(Boost, MODE_PRIVATE).edit();
+        boost.putBoolean("1", true);
+        boost.putBoolean("2", true);
+        boost.putBoolean("3", true);
+        boost.apply();
+
+        SharedPreferences prefs = getSharedPreferences(Boost, MODE_PRIVATE);
+        String boostRestoredText = prefs.getString("text", null);
+        if (boostRestoredText != null) {
+            String boost = prefs.getString("name", "No name defined");//"No name defined" is the default value.
+            int idName = prefs.getInt("idName", 0); //0 is the default value.
+        }
+*/
+        pref = getApplicationContext().getSharedPreferences("Vault", 0); // 0 - for private mode
+        editor = pref.edit();
+
+        editor.putBoolean("forceOne", false); // Storing boolean - true/false
+        editor.putBoolean("forceTwo", false);
+        editor.putBoolean("forceThree", false);
+        editor.putBoolean("boostOne", false);
+        editor.putBoolean("boostTwo", false);
+        editor.putBoolean("boostThree", false);
+        editor.commit(); // commit changes
+
+
+        Boolean forceone = pref.getBoolean("forceOne", false); // getting String
+        Boolean forcetwo= pref.getBoolean("forceTwo", false); // getting Integer
+        Boolean forcethreene = pref.getBoolean("forceThree", false); // getting Float
+        Boolean boostone = pref.getBoolean("boostOne", false); // getting Long
+        Boolean boosttwo = pref.getBoolean("boostTwo", false); // getting boolean
+        Boolean boostthree = pref.getBoolean("boostThree", false); // getting boolean
+
         setContentView(R.layout.super_scouting);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         next = getIntent();
@@ -322,13 +366,16 @@ public class ScoutingPage extends ActionBarActivity {
         String reformattedDataName = "";
         //Log.d("dataname", dataName);
 
-        if(!dataName.equals("Good Decision") && !dataName.equals("Bad Decision")){
+        if(!dataName.equals("Good Decisions") && !dataName.equals("Bad Decisions")){
             reformattedDataName = "rank" + dataName.replace(" ", "");
-        }else if(dataName.equals("Good Decision") || dataName.equals("Bad Decision")){
+        }else if(dataName.equals("Good Decisions") || dataName.equals("Bad Decisions")){
             reformattedDataName = "num" + dataName.replace(" ", "");
         }
         return reformattedDataName;
     }
+
+
+
 
     public void initializeTeamTextViews() {
         SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
@@ -454,6 +501,7 @@ public class ScoutingPage extends ActionBarActivity {
     public void forceone(View view){
         final ToggleButton forceonetoggle = (ToggleButton) findViewById(R.id.forceone);
         forceonetoggle.setChecked(true);
+         
     }
 
     public void forcetwo(View view) {
