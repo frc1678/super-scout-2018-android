@@ -96,24 +96,6 @@ public class ScoutingPage extends ActionBarActivity {
             int idName = prefs.getInt("idName", 0); //0 is the default value.
         }
 */
-        pref = getApplicationContext().getSharedPreferences("Vault", 0); // 0 - for private mode
-        editor = pref.edit();
-
-        editor.putBoolean("forceOne", false); // Storing boolean - true/false
-        editor.putBoolean("forceTwo", false);
-        editor.putBoolean("forceThree", false);
-        editor.putBoolean("boostOne", false);
-        editor.putBoolean("boostTwo", false);
-        editor.putBoolean("boostThree", false);
-        editor.commit(); // commit changes
-
-
-        Boolean forceone = pref.getBoolean("forceOne", false); // getting String
-        Boolean forcetwo= pref.getBoolean("forceTwo", false); // getting Integer
-        Boolean forcethreene = pref.getBoolean("forceThree", false); // getting Float
-        Boolean boostone = pref.getBoolean("boostOne", false); // getting Long
-        Boolean boosttwo = pref.getBoolean("boostTwo", false); // getting boolean
-        Boolean boostthree = pref.getBoolean("boostThree", false); // getting boolean
 
         setContentView(R.layout.super_scouting);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -273,10 +255,22 @@ public class ScoutingPage extends ActionBarActivity {
                 if (alliance.equals("Blue Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("blueScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Boost").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Force").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("levitate").setValue(allianceFoulInt);
+
+
+
+
 
                 } else if (alliance.equals("Red Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("redScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Boost").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Force").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Levitate").setValue(allianceFoulInt);
+
+
                 }
 
                 dialog.cancel();
