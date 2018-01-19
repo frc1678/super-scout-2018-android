@@ -34,6 +34,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import static com.example.sam.blutoothsocketreceiver.R.id.didFaceBossBoolean;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
@@ -46,7 +47,6 @@ public class ScoutingPage extends ActionBarActivity {
     String alliance;
     String dataBaseUrl;
     String allianceScoreData, allianceFoulData;
-    String NextString;
     TextView teamNumberOneTextview;
     TextView teamNumberTwoTextview;
     TextView teamNumberThreeTextview;
@@ -58,6 +58,11 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamThreeDataScore;
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
+    Boolean didFaceBossBoolean;
+    Boolean didAutoQuestBoolean;
+    Boolean boostCounter;
+    Boolean levitateCounter;
+    Boolean forceCounter;
     Boolean isMute;
     JSONObject object;
     Intent next;
@@ -200,6 +205,15 @@ public class ScoutingPage extends ActionBarActivity {
         if (allianceFoulInt != null && allianceFoulInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalFoulEditText)).setText(String.valueOf(allianceFoulInt));
         }
+        if (boostCounter != null) {
+            ((Counter) finalDataView.findViewById(R.id.BoostCounter)).getDataValue();
+        }
+        if (forceCounter != null) {
+            ((Counter) finalDataView.findViewById(R.id.ForceCounter)).getDataValue();
+        }
+        if (levitateCounter != null) {
+            ((Counter) finalDataView.findViewById(R.id.LevitateCounter)).getDataValue();
+        }
         endDataBuilder.setView(finalDataView);
         endDataBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -213,8 +227,13 @@ public class ScoutingPage extends ActionBarActivity {
                 Dialog d = (Dialog) dialog;
                 EditText scoreText = (EditText) d.findViewById(R.id.finalScoreEditText);
                 EditText foulText = (EditText) d.findViewById(R.id.finalFoulEditText);
+                Switch didFaceBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
+
                 allianceFoulData = foulText.getText().toString();
                 allianceScoreData = scoreText.getText().toString();
+            didFaceBossBoolean = didAutoQuestBoolean.);
+                didAutoQuestBoolean = ;
+
                 try {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
                     allianceFoulInt = Integer.parseInt(allianceFoulData);
@@ -285,6 +304,11 @@ public class ScoutingPage extends ActionBarActivity {
         intent.putExtra("dataBaseUrl", dataBaseUrl);
         intent.putExtra("allianceScore", allianceScoreData);
         intent.putExtra("allianceFoul", allianceFoulData);
+        intent.putExtra("levitateCounter", levitateCounter);
+        intent.putExtra("forceCounter", forceCounter);
+        intent.putExtra("boostCounter", boostCounter);
+        intent.putExtra("autoQuest", didAutoQuestBoolean);
+        intent.putExtra("faceBoss", didFaceBossBoolean);
         intent.putExtra("mute", isMute);
         intent.putStringArrayListExtra("dataNameOne", teamOneDataName);
         intent.putStringArrayListExtra("ranksOfOne", teamOneDataScore);
