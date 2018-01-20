@@ -82,52 +82,69 @@ public class PlateConfig {
 
     public void swapColor(View button) {
         //TODO: This swaps color of two buttons.
-        String oppositeButton;
+        String oppositeButtonState;
+        String oppositeButtonColor;
 
         if(isRed) {
             if(configMap.get(button).equals("red")) {
                 button.setBackgroundColor(Color.parseColor(blue));
                 //button.setBackgroundDrawable(blueDrawable);
                 configMap.put(button, "blue");
-                oppositeButton = "red";
+                oppositeButtonState = "red";
+                oppositeButtonColor = blue;
             } else {
                 button.setBackgroundColor(Color.parseColor(red));
                 //button.setBackgroundDrawable(blueDrawable);
                 configMap.put(button, "red");
-                oppositeButton = "blue";
+                oppositeButtonState = "red";
+                oppositeButtonColor = blue;
             }
         } else {
             if(configMap.get(button).equals("blue")) {
                 button.setBackgroundColor(Color.parseColor(red));
                 //button.setBackgroundDrawable(redDrawable);
                 configMap.put(button, "red");
-                oppositeButton = "red";
+                oppositeButtonState = "red";
+                oppositeButtonColor = blue;
             } else {
                 button.setBackgroundColor(Color.parseColor(blue));
                 //button.setBackgroundDrawable(redDrawable);
                 configMap.put(button, "blue");
-                oppositeButton = "blue";
+                oppositeButtonState = "red";
+                oppositeButtonColor = blue;
             }
         }
 
         switch(button.getId()) //TODO: Complete the action for each button.
         {
             case R.id.blueTopPlateButton:
+                blueBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(blueBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.blueBottomPlateButton:
+                blueTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(blueTopPlateButton, oppositeButtonState);
                 break;
 
             case R.id.scaleTopPlateButton:
+                scaleBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(scaleBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.scaleBottomPlateButton:
+                scaleTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(scaleTopPlateButton, oppositeButtonState);
                 break;
 
             case R.id.redTopPlateButton:
+                redBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(redBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.redBottomPlateButton:
+                redTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
+                configMap.put(redTopPlateButton, oppositeButtonState);
                 break;
         }
 
