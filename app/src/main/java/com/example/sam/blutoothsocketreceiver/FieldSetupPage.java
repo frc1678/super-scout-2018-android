@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -90,7 +91,10 @@ public class FieldSetupPage extends AppCompatActivity{
             Map<Integer, String> configMap = plateConfig.getConfig();
 
             if (configMap.containsValue("noColor")){
-                Toast.makeText(context, "Select a configuration for each plate!", Toast.LENGTH_LONG).show();
+                //Toast.makeText(context, "Select a configuration for each plate!", Toast.LENGTH_LONG).show();
+                Toast toast = Toast.makeText(context,"Select a configuration for each plate!", Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 65);
+                toast.show();
             } else {
                 next = new Intent(context, ScoutingPage.class);
                 next.putExtras(previous);
