@@ -34,9 +34,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.sam.blutoothsocketreceiver.R.id.Boost;
 import static com.example.sam.blutoothsocketreceiver.R.id.Force;
+import static com.example.sam.blutoothsocketreceiver.R.id.boostone;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
@@ -59,6 +62,7 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamTwoDataScore;
     ArrayList<String> teamThreeDataName;
     ArrayList<String> teamThreeDataScore;
+    Map<String, Integer> allianceCubesForPowerup;
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
     Boolean isMute;
@@ -99,6 +103,7 @@ public class ScoutingPage extends ActionBarActivity {
 
         setContentView(R.layout.super_scouting);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        allianceCubesForPowerup = new HashMap<>();
         next = getIntent();
         object = new JSONObject();
         getExtrasForScouting();
@@ -160,24 +165,33 @@ public class ScoutingPage extends ActionBarActivity {
         return canProceed;
     }
 
+
     //The next Button, to see if boolean r valid
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
+
+
 
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
 
+
         if (id == R.id.endDataShortcut) {
             inflateFinalDataMenu();
         }
+
 
         if (id == R.id.finalNext) {
             if (canProceed()) {
                 final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
                 final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
                 final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
+
+                //use the allianceCubesForPowerUp Map here to write to firebase;
+
+
                 listDataValues();
                 new Thread() {
                     @Override
@@ -192,6 +206,7 @@ public class ScoutingPage extends ActionBarActivity {
                             for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
                                 dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
                             }
+
                         } catch (DatabaseException FBE) {
                             Log.e("firebase", "scoutingPage");
                         } catch (IndexOutOfBoundsException IOB) {
@@ -210,8 +225,13 @@ public class ScoutingPage extends ActionBarActivity {
             }
 
         }
+
+
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 
 
@@ -298,6 +318,9 @@ public class ScoutingPage extends ActionBarActivity {
         isRed = next.getExtras().getBoolean("allianceColor");
     }
 
+
+
+
     public void setPanels() {
         SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
         SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
@@ -309,6 +332,20 @@ public class ScoutingPage extends ActionBarActivity {
         panelThree.setAllianceColor(isRed);
         panelThree.setTeamNumber(teamNumberThree);
     }
+
+    public void sendVaultData(){
+        Boolean boostone;
+        Boolean boosttwo;
+        Boolean boostthree;
+        Boolean forceone;
+        Boolean forcetwo;
+        Boolean forcethree;
+        Boolean Lev;
+
+
+
+    }
+
 
     public void sendExtras() {
         Intent intent = new Intent(this, FinalDataPoints.class);
@@ -468,60 +505,76 @@ public class ScoutingPage extends ActionBarActivity {
         });
     }
 
+    public void ForceDialogs(View view){
 
-    public void ForceDialogs(View view) {
-        Button ForceButton;
-        ForceButton = (Button)findViewById(R.id.Force);
-        final Dialog forceDialog = new Dialog(context); // Context, this, etc.
-        forceDialog.setContentView(R.layout.force_dialog);
-        forceDialog.setTitle("Force");
-        forceDialog.show();
+        AlertDialog.Builder forceDialog = new AlertDialog.Builder(context);
+        forceDialog.setMessage("Force");
+        forceDialog.setCancelable(false);
+        forceDialog.setView(R.layout.force_dialog);
+        forceDialog.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        View forceLayout = getLayoutInflater().inflate(R.layout.force_dialog, null);
+                        ToggleButton f1 = (ToggleButton)forceLayout.findViewById(R.id.forceone);
+                        ToggleButton f2 = (ToggleButton)forceLayout.findViewById(R.id.forcetwo);
+                        ToggleButton f3 = (ToggleButton)forceLayout.findViewById(R.id.forcethree);
+                        ArrayList<ToggleButton> forceToggles = new ArrayList<>(Arrays.asList(f1, f2, f3));
+                        for (ToggleButton b : forceToggles){
+                            if(b.isChecked()){
+                                allianceCubesForPowerup.put("Force", Integer.parseInt(b.getText().toString()));
+                            }
+                        }
+                        Log.e("PowerUp Map", allianceCubesForPowerup.toString());
+                    }
+                });
+
+        forceDialog.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = forceDialog.create();
+        alert11.show();
     }
-
     public void BoostDialogs(View view) {
-        Button BoostButton;
-        BoostButton = (Button)findViewById(R.id.Force);
-        final Dialog forceDialog = new Dialog(context); // Context, this, etc.
-        forceDialog.setContentView(R.layout.boost_dialog);
-        forceDialog.setTitle("Boost");
-        forceDialog.show();
+        AlertDialog.Builder boostDialog = new AlertDialog.Builder(context);
+        boostDialog.setMessage("Boost");
+        boostDialog.setCancelable(false);
+        boostDialog.setView(R.layout.boost_dialog);
+        boostDialog.setPositiveButton(
+                "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        View boostLayout = getLayoutInflater().inflate(R.layout.boost_dialog, null);
+                        ToggleButton b1 = (ToggleButton)boostLayout.findViewById(R.id.boostone);
+                        ToggleButton b2 = (ToggleButton)boostLayout.findViewById(R.id.boosttwo);
+                        ToggleButton b3 = (ToggleButton)boostLayout.findViewById(R.id.boostthree);
+                        ArrayList<ToggleButton> boostToggles = new ArrayList<>(Arrays.asList(b1, b2, b3));
+                        for (ToggleButton b : boostToggles){
+                            if(b.isChecked()){
+                                allianceCubesForPowerup.put("Boost", Integer.parseInt(b.getText().toString()));
+                            }
+                        }
+                        Log.e("PowerUp Map", allianceCubesForPowerup.toString());
+                    }
+                });
+
+        boostDialog.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = boostDialog.create();
+        alert11.show();
     }
 
-    public void Lev(View view) {
-        final ToggleButton Levtoggle = (ToggleButton) findViewById(R.id.Lev);
-        Levtoggle.setChecked(true);
-    }
-
-    public void forceone(View view){
-        final ToggleButton forceonetoggle = (ToggleButton) findViewById(R.id.forceone);
-        forceonetoggle.setChecked(true);
-         
-    }
-
-    public void forcetwo(View view) {
-        final ToggleButton forcetwotoggle = (ToggleButton) findViewById(R.id.forcetwo);
-        forcetwotoggle.setChecked(true);
-    }
-
-    public void forcethree(View view) {
-        final ToggleButton forcethreetoggle = (ToggleButton) findViewById(R.id.forcethree);
-        forcethreetoggle.setChecked(true);
-    }
-
-    public void boostone(View view) {
-        final ToggleButton boostonetoggle = (ToggleButton) findViewById(R.id.boostone);
-        boostonetoggle.setChecked(true);
-    }
-
-    public void boosttwo(View view) {
-        final ToggleButton boosttwotoggle = (ToggleButton) findViewById(R.id.boosttwo);
-        boosttwotoggle.setChecked(true);
-    }
-
-    public void boostthree(View view) {
-        final ToggleButton boostthreetoggle = (ToggleButton) findViewById(R.id.boostthree);
-        boostthreetoggle.setChecked(true);
-    }
 }
 
 

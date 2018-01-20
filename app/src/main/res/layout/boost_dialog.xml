@@ -2,12 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/BoostInfo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Boost" />
 
     <ToggleButton
         android:layout_width="wrap_content"
@@ -46,6 +40,17 @@
         android:layout_marginTop="122.5dp"
         android:layout_marginBottom="30dp"
         />
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/OKButton"
+      android:text="OK"
+      android:textSize="25sp"
+      android:layout_below="@+id/boostthree"
+      android:layout_alignParentRight="true"
+      android:onClick="boostDialogOKClicked"
+      android:paddingRight="20dp"/>
 
 
 
