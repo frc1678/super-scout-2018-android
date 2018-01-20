@@ -1,17 +1,27 @@
 package com.example.sam.blutoothsocketreceiver;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,17 +32,11 @@ import java.util.Map;
 public class FieldSetupPage extends AppCompatActivity{
 
     Activity context;
-    Intent intent;
-    Bundle bundle;
-    /* TODO: Remove:
-    Button blueTopPlateButton;
-    Button blueBottomPlateButton;
-    Button scaleTopPlateButton;
-    Button scaleBottomPlateButton;
-    Button redTopPlateButton;
-    Button redBottomPlateButton;
-    Map<String, Map<View, String>> configurationMap; //TODO: Convert string to custom object w/ 3 values(?)
-    */
+    Intent previous;
+
+    String numberOfMatch;
+    //Intent next;
+    DatabaseReference dataBase;
 
     PlateConfig plateConfig;
     boolean isRed; //TODO: Get value from extras.
@@ -43,36 +47,35 @@ public class FieldSetupPage extends AppCompatActivity{
         setContentView(R.layout.activity_fieldsetup);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         context = this;
-        intent = getIntent();
+        previous = getIntent();
+        getExtrasForSetup();
+        dataBase = FirebaseDatabase.getInstance().getReference();
 
         plateConfig = new PlateConfig(context, isRed);
-
-        /*TODO: REMOVE:
-        configurationMap = new HashMap<>();
-        Map blueSwitchMap = new HashMap<View, String>();
-        Map scaleMap = new HashMap<View, String>();
-        Map redSwitchMap = new HashMap<View, String>();
-
-        blueTopPlateButton = (Button) findViewById(R.id.blueTopPlateButton);
-        blueSwitchMap.put(blueTopPlateButton, "noColor");
-        blueBottomPlateButton = (Button) findViewById(R.id.blueBottomPlateButton);
-        blueSwitchMap.put(blueBottomPlateButton, "noColor");
-        configurationMap.put("blueSwitch", blueSwitchMap);
-
-        scaleTopPlateButton = (Button) findViewById(R.id.scaleTopPlateButton);
-        scaleMap.put(scaleTopPlateButton, "noColor");
-        scaleBottomPlateButton = (Button) findViewById(R.id.scaleBottomPlateButton);
-        scaleMap.put(scaleBottomPlateButton, "noColor");
-
-        redTopPlateButton = (Button) findViewById(R.id.redTopPlateButton);
-        redSwitchMap.put(redTopPlateButton, "noColor");
-        redBottomPlateButton = (Button) findViewById(R.id.redBottomPlateButton);
-        redSwitchMap.put(redBottomPlateButton, "noColor");
-        */
-
     }
 
-    //TODO: Implement data loss warning when going back.
+    //Warns the user that going back will change data
+    @Override
+    public void onBackPressed() {
+        final Activity activity = this;
+        new AlertDialog.Builder(this)
+                .setTitle("WARNING")
+                .setMessage("GOING BACK WILL CAUSE LOSS OF DATA")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        activity.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    //TODO: Check with other supers config.
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,14 +92,34 @@ public class FieldSetupPage extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.teleop) {
-            if (false/* TODO: put in check condition for plate configuration being entered*/){
+
+            //TODO: firebaseRef.child("/Matches").child(numberOfMatch).
+            Map<Integer, String> configMap = plateConfig.getConfig();
+
+            if (configMap.containsValue("noColor")){
                 Toast.makeText(context, "Select a configuration for each plate!", Toast.LENGTH_LONG).show();
             } else {
-                //TODO: make intent for scout (and pass intent info from mainactivity here)
-                Intent teleopIntent = new Intent(context, ScoutingPage.class);
-                teleopIntent.putExtras(intent);
-                //TODO: Add extras from this activity.
-                startActivity(teleopIntent);
+                Intent next = new Intent(context, ScoutingPage.class);
+                next.putExtras(previous);
+                //TODO: Add extras from this activity & /push data to firebase/ & save config to local.
+                //TODO: Simplify to a gson object(?).
+
+                Log.d("leftB", configMap.get(R.id.blueTopPlateButton));
+                Log.d("rightB", configMap.get(R.id.blueBottomPlateButton));
+                dataBase.child("/Matches").child(numberOfMatch).child("blueSwitch").child("left").setValue(configMap.get(R.id.blueTopPlateButton));
+
+                dataBase.child("/Matches").child(numberOfMatch).child("blueSwitch").child("right").setValue(configMap.get(R.id.blueBottomPlateButton));
+
+                dataBase.child("/Matches").child(numberOfMatch).child("scale").child("left").setValue(configMap.get(R.id.scaleTopPlateButton));
+
+                dataBase.child("/Matches").child(numberOfMatch).child("scale").child("right").setValue(configMap.get(R.id.scaleBottomPlateButton));
+
+                dataBase.child("/Matches").child(numberOfMatch).child("redSwitch").child("left").setValue(configMap.get(R.id.redTopPlateButton));
+
+                dataBase.child("/Matches").child(numberOfMatch).child("redSwitch").child("right").setValue(configMap.get(R.id.redBottomPlateButton));
+
+                //TODO: Check data against other scout (check if what is currently in the switches and plates conflicts with what this has, notify).
+                startActivity(next);
             }
 
 
@@ -108,42 +131,11 @@ public class FieldSetupPage extends AppCompatActivity{
     public void plateButtonPress(View plateButton)
     {
         plateConfig.swapColor(plateButton);
+    }
 
+    public void getExtrasForSetup() {
 
-        /* TODO: REMOVE
-        if(isRed) {
-            if(plateButtonMap.get(plateButton).equals("red")) {
-                plateButton.setBackgroundColor(blue);
-                plateButtonMap.put(plateButton, "blue");
-                //TODO: Set color of opposite button.
-            } else {
-                plateButton.setBackgroundColor(red);
-                plateButtonMap.put(plateButton, "red");
-                //TODO: Set color of opposite button.
-            }
-        } */
-
-
-        /* TODO: REMOVE
-        switch(view.getId()) //TODO: Complete the action for each button.
-        {
-            case R.id.blueTopPlateButton:
-                break;
-
-            case R.id.blueBottomPlateButton:
-                break;
-
-            case R.id.scaleTopPlateButton:
-                break;
-
-            case R.id.scaleBottomPlateButton:
-                break;
-
-            case R.id.redTopPlateButton:
-                break;
-
-            case R.id.redBottomPlateButton:
-                break;
-        }*/
+        numberOfMatch = previous.getExtras().getString("matchNumber");
+        isRed = previous.getExtras().getBoolean("allianceColor");
     }
 }

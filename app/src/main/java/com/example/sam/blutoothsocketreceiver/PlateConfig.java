@@ -8,6 +8,9 @@ import android.graphics.drawable.ScaleDrawable;
 import android.view.View;
 import android.widget.Button;
 
+import org.jcodec.common.DictionaryCompressor;
+import org.jcodec.common.RunLength;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,123 +31,104 @@ public class PlateConfig {
     private Button redTopPlateButton;
     private Button redBottomPlateButton;
 
-    private Map<View, String> configMap;
+    private Map<Integer, String> configMap;
 
     private String red;
     private String blue;
-
-    //TODO: Not being used now, reimplement if time available.
-    /*
-    GradientDrawable blueDrawable;
-    GradientDrawable redDrawable;
-    */
 
     public PlateConfig(Context context, boolean isRed) {
         this.context = context;
         this.isRed = isRed;
 
-        red = "#0000ff"; //0000ff
-        blue = "#ff0000"; //ff0000
+        red = "#FF0000";
+        blue = "#0000FF";
 
         configMap = new HashMap<>();
 
         blueTopPlateButton = (Button) ((Activity)context).findViewById(R.id.blueTopPlateButton);
-        configMap.put(blueTopPlateButton, "noColor");
+        configMap.put(R.id.blueTopPlateButton, "noColor");
         blueBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.blueBottomPlateButton);
-        configMap.put(blueBottomPlateButton, "noColor");
+        configMap.put(R.id.blueBottomPlateButton, "noColor");
         scaleTopPlateButton = (Button) ((Activity)context).findViewById(R.id.scaleTopPlateButton);
-        configMap.put(scaleTopPlateButton, "noColor");
+        configMap.put(R.id.scaleTopPlateButton, "noColor");
         scaleBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.scaleBottomPlateButton);
-        configMap.put(scaleBottomPlateButton, "noColor");
+        configMap.put(R.id.scaleBottomPlateButton, "noColor");
         redTopPlateButton = (Button) ((Activity)context).findViewById(R.id.redTopPlateButton);
-        configMap.put(redTopPlateButton, "noColor");
+        configMap.put(R.id.redTopPlateButton, "noColor");
         redBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.redBottomPlateButton);
-        configMap.put(redBottomPlateButton, "noColor");
-
-        //TODO: Not being used now, reimplement if time available.
-        /* //Drawables used for setting border on buttons.
-        blueDrawable = new GradientDrawable();
-        blueDrawable.setColor(0xFF0000FF); // Changes this drawable to use a single color instead of a gradient
-        blueDrawable.setCornerRadius(1);
-        blueDrawable.setStroke(7, 0xFF252525);
-
-        redDrawable = new GradientDrawable();
-        redDrawable.setColor(0xFFFF0000); // Changes this drawable to use a single color instead of a gradient
-        redDrawable.setCornerRadius(1);
-        redDrawable.setStroke(7, 0xFF252525);
-        */
+        configMap.put(R.id.redBottomPlateButton, "noColor");
     }
 
-    public HashMap<String, String/*TODO: Figure out what this needs to be (ex Gson, etc.)*/> getConfig() {
-        //TODO: Get configuration of plates.
-        return null; //TODO: Make this not null.
+    public Map<Integer, String> getConfig() {
+        //TODO: Send gson object instead of HashMap?
+        return configMap;
     }
 
     public void swapColor(View button) {
-        //TODO: This swaps color of two buttons.
+        Integer buttonId = button.getId();
         String oppositeButtonState;
         String oppositeButtonColor;
 
         if(isRed) {
-            if(configMap.get(button).equals("red")) {
+            if(configMap.get(buttonId).equals("red")) {
                 button.setBackgroundColor(Color.parseColor(blue));
                 //button.setBackgroundDrawable(blueDrawable);
-                configMap.put(button, "blue");
+                configMap.put(buttonId, "blue");
                 oppositeButtonState = "red";
-                oppositeButtonColor = blue;
+                oppositeButtonColor = red;
             } else {
                 button.setBackgroundColor(Color.parseColor(red));
                 //button.setBackgroundDrawable(blueDrawable);
-                configMap.put(button, "red");
-                oppositeButtonState = "red";
+                configMap.put(buttonId, "red");
+                oppositeButtonState = "blue";
                 oppositeButtonColor = blue;
             }
         } else {
-            if(configMap.get(button).equals("blue")) {
+            if(configMap.get(buttonId).equals("blue")) {
                 button.setBackgroundColor(Color.parseColor(red));
                 //button.setBackgroundDrawable(redDrawable);
-                configMap.put(button, "red");
-                oppositeButtonState = "red";
+                configMap.put(buttonId, "red");
+                oppositeButtonState = "blue";
                 oppositeButtonColor = blue;
             } else {
                 button.setBackgroundColor(Color.parseColor(blue));
                 //button.setBackgroundDrawable(redDrawable);
-                configMap.put(button, "blue");
+                configMap.put(buttonId, "blue");
                 oppositeButtonState = "red";
-                oppositeButtonColor = blue;
+                oppositeButtonColor = red;
             }
         }
 
-        switch(button.getId()) //TODO: Complete the action for each button.
+        switch(buttonId)
         {
             case R.id.blueTopPlateButton:
                 blueBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(blueBottomPlateButton, oppositeButtonState);
+                configMap.put(R.id.blueBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.blueBottomPlateButton:
                 blueTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(blueTopPlateButton, oppositeButtonState);
+                configMap.put(R.id.blueTopPlateButton, oppositeButtonState);
                 break;
 
             case R.id.scaleTopPlateButton:
                 scaleBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(scaleBottomPlateButton, oppositeButtonState);
+                configMap.put(R.id.scaleBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.scaleBottomPlateButton:
                 scaleTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(scaleTopPlateButton, oppositeButtonState);
+                configMap.put(R.id.scaleTopPlateButton, oppositeButtonState);
                 break;
 
             case R.id.redTopPlateButton:
                 redBottomPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(redBottomPlateButton, oppositeButtonState);
+                configMap.put(R.id.redBottomPlateButton, oppositeButtonState);
                 break;
 
             case R.id.redBottomPlateButton:
                 redTopPlateButton.setBackgroundColor(Color.parseColor(oppositeButtonColor));
-                configMap.put(redTopPlateButton, oppositeButtonState);
+                configMap.put(R.id.redTopPlateButton, oppositeButtonState);
                 break;
         }
 
