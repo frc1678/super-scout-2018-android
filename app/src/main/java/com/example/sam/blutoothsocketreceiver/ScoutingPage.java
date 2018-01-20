@@ -75,6 +75,7 @@ public class ScoutingPage extends ActionBarActivity {
     String teamThreeNotes;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    ToggleButton levitate;
 
 
     @Override
@@ -92,6 +93,7 @@ public class ScoutingPage extends ActionBarActivity {
         setPanels();
         initializeTeamTextViews();
         context = this;
+        levitate = (ToggleButton) findViewById(R.id.Lev);
 
         teamOneNotes = "";
         teamTwoNotes = "";
@@ -186,7 +188,25 @@ public class ScoutingPage extends ActionBarActivity {
                             for (int i = 0; i < panelThree.getDataNameCount() - 1; i++) {
                                 dataBase.child("/TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child(reformatDataNames(teamThreeDataName.get(i))).setValue(Integer.parseInt(teamThreeDataScore.get(i)));
                             }
+                            if(alliance.equals("Blue Alliance")){
+                                for (int i = 0; i < allianceCubesForPowerup.size(); i++){
+                                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i].toString()));
+                                }
 
+                                //write for blue alliance
+                            }else{
+                                for (int i = 0; i < allianceCubesForPowerup.size(); i++){
+                                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i].toString()));
+                                }
+                                //write for red alliance
+                            }
+
+                            if(alliance.equals("Blue Alliance")){
+                                dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Levitate").setValue(levitate);
+                            }
+                            else{
+                                dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Levitate").setValue(levitate);
+                            }
                         } catch (DatabaseException FBE) {
                             Log.e("firebase", "scoutingPage");
                         } catch (IndexOutOfBoundsException IOB) {
