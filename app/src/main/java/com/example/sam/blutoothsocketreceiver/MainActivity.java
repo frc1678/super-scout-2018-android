@@ -488,6 +488,16 @@ public class MainActivity extends ActionBarActivity {
                         dataBase.child("TeamInMatchDatas").child(matchAndTeamTwo).child("superNotes").child("finalNotes").setValue(teamTwoFinalNotes);
                         dataBase.child("TeamInMatchDatas").child(matchAndTeamThree).child("superNotes").child("finalNotes").setValue(teamThreeFinalNotes);
 
+                        //TODO: Nathan: Finish and add check against current Firebase
+                        /*
+                        dataBase.child("Matches").child(matchNum).child("blueSwitch").child("left").setValue(configMap.get(R.id.blueTopPlateButton));
+                        dataBase.child("Matches").child(matchNum).child("blueSwitch").child("right").setValue(configMap.get(R.id.blueBottomPlateButton));
+                        dataBase.child("Matches").child(matchNum).child("scale").child("left").setValue(configMap.get(R.id.scaleTopPlateButton));
+                        dataBase.child("Matches").child(matchNum).child("scale").child("right").setValue(configMap.get(R.id.scaleBottomPlateButton));
+                        dataBase.child("Matches").child(matchNum).child("redSwitch").child("left").setValue(configMap.get(R.id.redTopPlateButton));
+                        dataBase.child("Matches").child(matchNum).child("redSwitch").child("right").setValue(configMap.get(R.id.redBottomPlateButton));
+                        */
+
 
                     } catch (JSONException JE) {
                         Log.e("json error", "failed to get super json");

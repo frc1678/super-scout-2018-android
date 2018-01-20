@@ -60,7 +60,6 @@ public class PlateConfig {
     }
 
     public Map<Integer, String> getConfig() {
-        //TODO: Send gson object instead of HashMap?
         return configMap;
     }
 

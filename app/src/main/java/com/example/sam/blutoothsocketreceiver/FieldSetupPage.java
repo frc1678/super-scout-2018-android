@@ -7,13 +7,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -33,13 +29,14 @@ public class FieldSetupPage extends AppCompatActivity{
 
     Activity context;
     Intent previous;
+    Intent next;
 
     String numberOfMatch;
     //Intent next;
     DatabaseReference dataBase;
 
     PlateConfig plateConfig;
-    boolean isRed; //TODO: Get value from extras.
+    boolean isRed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +72,6 @@ public class FieldSetupPage extends AppCompatActivity{
                 .show();
     }
 
-    //TODO: Check with other supers config.
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -92,33 +87,23 @@ public class FieldSetupPage extends AppCompatActivity{
         int id = item.getItemId();
 
         if (id == R.id.teleop) {
-
-            //TODO: firebaseRef.child("/Matches").child(numberOfMatch).
             Map<Integer, String> configMap = plateConfig.getConfig();
 
             if (configMap.containsValue("noColor")){
                 Toast.makeText(context, "Select a configuration for each plate!", Toast.LENGTH_LONG).show();
             } else {
-                Intent next = new Intent(context, ScoutingPage.class);
+                next = new Intent(context, ScoutingPage.class);
                 next.putExtras(previous);
-                //TODO: Add extras from this activity & /push data to firebase/ & save config to local.
-                //TODO: Simplify to a gson object(?).
+                //TODO: Nathan: Add extras from this activity & save config to local.
 
-                Log.d("leftB", configMap.get(R.id.blueTopPlateButton));
-                Log.d("rightB", configMap.get(R.id.blueBottomPlateButton));
-                dataBase.child("/Matches").child(numberOfMatch).child("blueSwitch").child("left").setValue(configMap.get(R.id.blueTopPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("blueSwitch").child("left").setValue(configMap.get(R.id.blueTopPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("blueSwitch").child("right").setValue(configMap.get(R.id.blueBottomPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("scale").child("left").setValue(configMap.get(R.id.scaleTopPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("scale").child("right").setValue(configMap.get(R.id.scaleBottomPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("redSwitch").child("left").setValue(configMap.get(R.id.redTopPlateButton));
+                dataBase.child("Matches").child(numberOfMatch).child("redSwitch").child("right").setValue(configMap.get(R.id.redBottomPlateButton));
 
-                dataBase.child("/Matches").child(numberOfMatch).child("blueSwitch").child("right").setValue(configMap.get(R.id.blueBottomPlateButton));
-
-                dataBase.child("/Matches").child(numberOfMatch).child("scale").child("left").setValue(configMap.get(R.id.scaleTopPlateButton));
-
-                dataBase.child("/Matches").child(numberOfMatch).child("scale").child("right").setValue(configMap.get(R.id.scaleBottomPlateButton));
-
-                dataBase.child("/Matches").child(numberOfMatch).child("redSwitch").child("left").setValue(configMap.get(R.id.redTopPlateButton));
-
-                dataBase.child("/Matches").child(numberOfMatch).child("redSwitch").child("right").setValue(configMap.get(R.id.redBottomPlateButton));
-
-                //TODO: Check data against other scout (check if what is currently in the switches and plates conflicts with what this has, notify).
+                //TODO: Nathan: Check data against other scout (check if what is currently in the switches and plates conflicts with what this has, notify).
                 startActivity(next);
             }
 
