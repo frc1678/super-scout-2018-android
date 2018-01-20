@@ -62,7 +62,7 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamTwoDataScore;
     ArrayList<String> teamThreeDataName;
     ArrayList<String> teamThreeDataScore;
-    Map<String, Integer> allianceCubesForPowerup;
+    Map<String, String> allianceCubesForPowerup = new HashMap<>();
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
     Boolean isMute;
@@ -80,35 +80,14 @@ public class ScoutingPage extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-/*
-        SharedPreferences.Editor force = getSharedPreferences(Force, MODE_PRIVATE).edit();
-        force.putBoolean("1", true);
-        force.putBoolean("2", true);
-        force.putBoolean("3", true);
-        force.apply();
 
-        SharedPreferences.Editor boost = getSharedPreferences(Boost, MODE_PRIVATE).edit();
-        boost.putBoolean("1", true);
-        boost.putBoolean("2", true);
-        boost.putBoolean("3", true);
-        boost.apply();
-
-        SharedPreferences prefs = getSharedPreferences(Boost, MODE_PRIVATE);
-        String boostRestoredText = prefs.getString("text", null);
-        if (boostRestoredText != null) {
-            String boost = prefs.getString("name", "No name defined");//"No name defined" is the default value.
-            int idName = prefs.getInt("idName", 0); //0 is the default value.
-        }
-*/
 
         setContentView(R.layout.super_scouting);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        allianceCubesForPowerup = new HashMap<>();
+        //allianceCubesForPowerup = new HashMap<>();
         next = getIntent();
         object = new JSONObject();
         getExtrasForScouting();
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        inflater.inflate(R.layout.super_scouting_panel, null);
         dataBase = FirebaseDatabase.getInstance().getReference();
         setPanels();
         initializeTeamTextViews();
@@ -188,6 +167,7 @@ public class ScoutingPage extends ActionBarActivity {
                 final SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
                 final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
                 final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
+
 
                 //use the allianceCubesForPowerUp Map here to write to firebase;
 
@@ -319,8 +299,6 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
 
-
-
     public void setPanels() {
         SuperScoutingPanel panelOne = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelOne);
         SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
@@ -332,20 +310,6 @@ public class ScoutingPage extends ActionBarActivity {
         panelThree.setAllianceColor(isRed);
         panelThree.setTeamNumber(teamNumberThree);
     }
-
-    public void sendVaultData(){
-        Boolean boostone;
-        Boolean boosttwo;
-        Boolean boostthree;
-        Boolean forceone;
-        Boolean forcetwo;
-        Boolean forcethree;
-        Boolean Lev;
-
-
-
-    }
-
 
     public void sendExtras() {
         Intent intent = new Intent(this, FinalDataPoints.class);
@@ -506,7 +470,6 @@ public class ScoutingPage extends ActionBarActivity {
     }
 
     public void ForceDialogs(View view){
-
         AlertDialog.Builder forceDialog = new AlertDialog.Builder(context);
         forceDialog.setMessage("Force");
         forceDialog.setCancelable(false);
@@ -515,17 +478,17 @@ public class ScoutingPage extends ActionBarActivity {
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        View forceLayout = getLayoutInflater().inflate(R.layout.force_dialog, null);
-                        ToggleButton f1 = (ToggleButton)forceLayout.findViewById(R.id.forceone);
-                        ToggleButton f2 = (ToggleButton)forceLayout.findViewById(R.id.forcetwo);
-                        ToggleButton f3 = (ToggleButton)forceLayout.findViewById(R.id.forcethree);
+                        Dialog d = (Dialog) dialog;
+                        ToggleButton f1 = (ToggleButton)d.findViewById(R.id.forceone);
+                        ToggleButton f2 = (ToggleButton)d.findViewById(R.id.forcetwo);
+                        ToggleButton f3 = (ToggleButton)d.findViewById(R.id.forcethree);
                         ArrayList<ToggleButton> forceToggles = new ArrayList<>(Arrays.asList(f1, f2, f3));
-                        for (ToggleButton b : forceToggles){
-                            if(b.isChecked()){
-                                allianceCubesForPowerup.put("Force", Integer.parseInt(b.getText().toString()));
+                        for (int i = 0; i < forceToggles.size(); i++){
+                            if(forceToggles.get(i).isChecked()){
+                                allianceCubesForPowerup.put("Force", forceToggles.get(i).getText().toString());
+                                Log.e("MAP", allianceCubesForPowerup.toString());
                             }
                         }
-                        Log.e("PowerUp Map", allianceCubesForPowerup.toString());
                     }
                 });
 
@@ -539,6 +502,7 @@ public class ScoutingPage extends ActionBarActivity {
 
         AlertDialog alert11 = forceDialog.create();
         alert11.show();
+
     }
     public void BoostDialogs(View view) {
         AlertDialog.Builder boostDialog = new AlertDialog.Builder(context);
@@ -549,17 +513,17 @@ public class ScoutingPage extends ActionBarActivity {
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        View boostLayout = getLayoutInflater().inflate(R.layout.boost_dialog, null);
-                        ToggleButton b1 = (ToggleButton)boostLayout.findViewById(R.id.boostone);
-                        ToggleButton b2 = (ToggleButton)boostLayout.findViewById(R.id.boosttwo);
-                        ToggleButton b3 = (ToggleButton)boostLayout.findViewById(R.id.boostthree);
+                        Dialog d = (Dialog) dialog;
+                        ToggleButton b1 = (ToggleButton)d.findViewById(R.id.boostone);
+                        ToggleButton b2 = (ToggleButton)d.findViewById(R.id.boosttwo);
+                        ToggleButton b3 = (ToggleButton)d.findViewById(R.id.boostthree);
                         ArrayList<ToggleButton> boostToggles = new ArrayList<>(Arrays.asList(b1, b2, b3));
-                        for (ToggleButton b : boostToggles){
-                            if(b.isChecked()){
-                                allianceCubesForPowerup.put("Boost", Integer.parseInt(b.getText().toString()));
+                        for (int i = 0; i < boostToggles.size(); i++){
+                            if(boostToggles.get(i).isChecked()){
+                                allianceCubesForPowerup.put("Boost", boostToggles.get(i).getText().toString());
+                                Log.e("MAP", allianceCubesForPowerup.toString());
                             }
                         }
-                        Log.e("PowerUp Map", allianceCubesForPowerup.toString());
                     }
                 });
 
