@@ -58,8 +58,8 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamThreeDataScore;
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
-    Boolean didFaceBossBoolean;
-    Boolean didAutoQuestBoolean;
+    Boolean facedTheBoss;
+    Boolean completedAutoQuest;
     Boolean boostCounter;
     Boolean levitateCounter;
     Boolean forceCounter;
@@ -205,6 +205,12 @@ public class ScoutingPage extends ActionBarActivity {
         if (allianceFoulInt != null && allianceFoulInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalFoulEditText)).setText(String.valueOf(allianceFoulInt));
         }
+        if (facedTheBoss != null) {
+            ((Switch) finalDataView.findViewById(R.id.didFaceBossBoolean)).setChecked(false);
+        }
+        if (completedAutoQuest != null) {
+            ((Switch) finalDataView.findViewById(R.id.didAutoQuestBoolean)).setChecked(false);
+        }
         if (boostCounter != null) {
             ((Counter) finalDataView.findViewById(R.id.BoostCounter)).getDataValue();
         }
@@ -227,12 +233,16 @@ public class ScoutingPage extends ActionBarActivity {
                 Dialog d = (Dialog) dialog;
                 EditText scoreText = (EditText) d.findViewById(R.id.finalScoreEditText);
                 EditText foulText = (EditText) d.findViewById(R.id.finalFoulEditText);
-                Switch didFaceBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
+                Switch facedTheBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
+                Switch completedAutoQuest = (Switch) d.findViewById(R.id.didAutoQuestBoolean);
+                Counter boostCounter = (Counter) d.findViewById(R.id.BoostCounter);
+                Counter forceCounter = (Counter) d.findViewById(R.id.ForceCounter);
+                Counter levitateCounter = (Counter) d.findViewById(R.id.LevitateCounter);
+
 
                 allianceFoulData = foulText.getText().toString();
                 allianceScoreData = scoreText.getText().toString();
-            didFaceBossBoolean = didAutoQuestBoolean.);
-                didAutoQuestBoolean = ;
+
 
                 try {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
@@ -248,10 +258,19 @@ public class ScoutingPage extends ActionBarActivity {
                 if (alliance.equals("Blue Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("blueScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(allianceFoulInt);
-
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidFaceBoss").setValue(facedTheBoss.isChecked());
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidAutoQuest").setValue(completedAutoQuest.isChecked());
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
                 } else if (alliance.equals("Red Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("redScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(allianceFoulInt);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidFaceBoss").setValue(facedTheBoss.isChecked());
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidAutoQuest").setValue(completedAutoQuest.isChecked());
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
                 }
 
                 dialog.cancel();
@@ -307,7 +326,7 @@ public class ScoutingPage extends ActionBarActivity {
         intent.putExtra("levitateCounter", levitateCounter);
         intent.putExtra("forceCounter", forceCounter);
         intent.putExtra("boostCounter", boostCounter);
-        intent.putExtra("autoQuest", didAutoQuestBoolean);
+        intent.putExtra("autoQuest", completedAutoQuest);
         intent.putExtra("faceBoss", didFaceBossBoolean);
         intent.putExtra("mute", isMute);
         intent.putStringArrayListExtra("dataNameOne", teamOneDataName);
