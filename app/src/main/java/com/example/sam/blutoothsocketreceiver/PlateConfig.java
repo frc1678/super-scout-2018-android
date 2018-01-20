@@ -35,6 +35,7 @@ public class PlateConfig {
 
     private String red;
     private String blue;
+    private String grey;
 
     public PlateConfig(Context context, boolean isRed) {
         this.context = context;
@@ -42,6 +43,7 @@ public class PlateConfig {
 
         red = "#FF0000";
         blue = "#0000FF";
+        grey = "#CCCCCC";
 
         configMap = new HashMap<>();
 
@@ -57,6 +59,13 @@ public class PlateConfig {
         configMap.put(R.id.redTopPlateButton, "noColor");
         redBottomPlateButton = (Button) ((Activity)context).findViewById(R.id.redBottomPlateButton);
         configMap.put(R.id.redBottomPlateButton, "noColor");
+
+        blueTopPlateButton.setBackgroundColor(Color.parseColor(grey));
+        blueBottomPlateButton.setBackgroundColor(Color.parseColor(grey));
+        scaleTopPlateButton.setBackgroundColor(Color.parseColor(grey));
+        scaleBottomPlateButton.setBackgroundColor(Color.parseColor(grey));
+        redTopPlateButton.setBackgroundColor(Color.parseColor(grey));
+        redBottomPlateButton.setBackgroundColor(Color.parseColor(grey));
     }
 
     public Map<Integer, String> getConfig() {
