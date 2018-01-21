@@ -99,7 +99,7 @@ public class ScoutingPage extends ActionBarActivity {
         forceCounterView = (TextView) findViewById(R.id.ForceCounter);
     }
 
-    //warns the user that going back will change data
+    //Warns the user that going back will change data
     @Override
     public void onBackPressed() {
         final Activity activity = this;
