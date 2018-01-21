@@ -55,6 +55,8 @@
         android:paddingTop="10dp"
         custom:dataName="Good Decisions"
         custom:startingValue="0"
+        custom:max="100"
+        custom:min="0"
         custom:increment="1"/>
 
     <com.example.sam.blutoothsocketreceiver.Counter
@@ -64,6 +66,8 @@
         android:paddingTop="10dp"
         custom:dataName="Bad Decisions"
         custom:startingValue="0"
+        custom:max="100"
+        custom:min="0"
         custom:increment="1"/>
 
 
