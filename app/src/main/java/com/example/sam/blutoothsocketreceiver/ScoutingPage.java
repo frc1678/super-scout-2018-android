@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +53,6 @@ public class ScoutingPage extends ActionBarActivity {
     String alliance;
     String dataBaseUrl;
     String allianceScoreData, allianceFoulData;
-    String NextString;
     TextView teamNumberOneTextview;
     TextView teamNumberTwoTextview;
     TextView teamNumberThreeTextview;
@@ -65,6 +65,11 @@ public class ScoutingPage extends ActionBarActivity {
     Map<String, Integer> allianceCubesForPowerup = new HashMap<>();
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
+    Boolean facedTheBoss = false;
+    Boolean didAutoQuest = false;
+    Integer boostC = 0;
+    Integer levitateC = 0;
+    Integer forceC = 0;
     Boolean isMute;
     JSONObject object;
     Intent next;
@@ -77,7 +82,9 @@ public class ScoutingPage extends ActionBarActivity {
     SharedPreferences.Editor editor;
     ToggleButton levitate;
     int levitateNum;
-
+    Counter boostCounterView;
+    Counter levitateCounterView;
+    Counter forceCounterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +106,10 @@ public class ScoutingPage extends ActionBarActivity {
         teamOneNotes = "";
         teamTwoNotes = "";
         teamThreeNotes = "";
+
     }
 
-    //warns the user that going back will change data
+    //Warns the user that going back will change data
     @Override
     public void onBackPressed() {
         final Activity activity = this;
@@ -138,7 +146,8 @@ public class ScoutingPage extends ActionBarActivity {
         SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelTwo);
         SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
         for (int i = 0; i < 3; i++) {
-            if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) || (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) ){
+            if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) ||
+                    (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) ){
             canProceed = false;
             return canProceed;}
            /* if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i))){
@@ -244,11 +253,25 @@ public class ScoutingPage extends ActionBarActivity {
         endDataBuilder.setCancelable(false);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View finalDataView = inflater.inflate(R.layout.finaldatapoints, null);
+        boostCounterView = (Counter) finalDataView.findViewById(R.id.BoostCounter);
+        levitateCounterView = (Counter) finalDataView.findViewById(R.id.LevitateCounter);
+        forceCounterView = (Counter) finalDataView.findViewById(R.id.ForceCounter);
         if (allianceScoreInt != null && allianceScoreInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalScoreEditText)).setText(String.valueOf(allianceScoreInt));
         }
         if (allianceFoulInt != null && allianceFoulInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalFoulEditText)).setText(String.valueOf(allianceFoulInt));
+        }
+        ((Switch) finalDataView.findViewById(R.id.didAutoQuestBoolean)).setChecked(didAutoQuest);
+        ((Switch) finalDataView.findViewById(R.id.didFaceBossBoolean)).setChecked(facedTheBoss);
+        if (boostC != null && boostC != 0) {
+            boostCounterView.refreshCounter(boostC);
+        }
+        if (levitateC != null && levitateC != 0) {
+            levitateCounterView.refreshCounter(levitateC);
+        }
+        if (forceC != null && forceC != 0) {
+            forceCounterView.refreshCounter(forceC);
         }
         endDataBuilder.setView(finalDataView);
         endDataBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -263,8 +286,17 @@ public class ScoutingPage extends ActionBarActivity {
                 Dialog d = (Dialog) dialog;
                 EditText scoreText = (EditText) d.findViewById(R.id.finalScoreEditText);
                 EditText foulText = (EditText) d.findViewById(R.id.finalFoulEditText);
+                Switch facedBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
+                Switch completedAutoQuest = (Switch) d.findViewById(R.id.didAutoQuestBoolean);
+
                 allianceFoulData = foulText.getText().toString();
                 allianceScoreData = scoreText.getText().toString();
+                didAutoQuest = completedAutoQuest.isChecked();
+                facedTheBoss = facedBoss.isChecked();
+                boostC = boostCounterView.getDataValue();
+                forceC = forceCounterView.getDataValue();
+                levitateC = levitateCounterView.getDataValue();
+
                 try {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
                     allianceFoulInt = Integer.parseInt(allianceFoulData);
@@ -279,21 +311,20 @@ public class ScoutingPage extends ActionBarActivity {
                 if (alliance.equals("Blue Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("blueScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Boost").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Force").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("levitate").setValue(allianceFoulInt);
 
-
-
-
-
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidFaceBoss").setValue(facedTheBoss);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidAutoQuest").setValue(didAutoQuest);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Boost").setValue(boostC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Levitate").setValue(levitateC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Force").setValue(forceC);
                 } else if (alliance.equals("Red Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("redScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Boost").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Force").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Levitate").setValue(allianceFoulInt);
-
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidFaceBoss").setValue(facedTheBoss);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidAutoQuest").setValue(didAutoQuest);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Boost").setValue(boostC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Levitate").setValue(levitateC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Force").setValue(forceC);
 
                 }
 
@@ -348,6 +379,11 @@ public class ScoutingPage extends ActionBarActivity {
         intent.putExtra("dataBaseUrl", dataBaseUrl);
         intent.putExtra("allianceScore", allianceScoreData);
         intent.putExtra("allianceFoul", allianceFoulData);
+        intent.putExtra("levitateCount", levitateC);
+        intent.putExtra("forceCount", forceC);
+        intent.putExtra("boostCount", boostC);
+        intent.putExtra("completedAutoQuest", didAutoQuest);
+        intent.putExtra("facedTheBoss", facedTheBoss);
         intent.putExtra("mute", isMute);
         intent.putStringArrayListExtra("dataNameOne", teamOneDataName);
         intent.putStringArrayListExtra("ranksOfOne", teamOneDataScore);
@@ -526,6 +562,7 @@ public class ScoutingPage extends ActionBarActivity {
 
         AlertDialog alert11 = forceDialog.create();
         alert11.show();
+
 
     }
     public void BoostDialogs(View view) {
