@@ -40,10 +40,6 @@ import java.util.Map;
 
 public class FinalDataPoints extends ActionBarActivity {
     String numberOfMatch;
-    Map redCubesForPowerup;
-    Map blueCubesForPowerup;
-    Map redCubesInVaultFinal;
-    Map blueCubesInVaultFinal;
     String teamNumberOne;
     String teamNumberTwo;
     String teamNumberThree;
@@ -81,14 +77,18 @@ public class FinalDataPoints extends ActionBarActivity {
         intent = getIntent();
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         superExternalData = new JSONObject();
+
         getExtrasForFinalData();
         firebaseRef = FirebaseDatabase.getInstance().getReference();
         allianceScore = (EditText) findViewById(R.id.finalScoreEditText);
         allianceFoul = (EditText) findViewById(R.id.finalFoulEditText);
         //
         facedTheBoss = (Switch) findViewById(R.id.didFaceBossBoolean);
+        facedTheBoss.setChecked(intent.getExtras().getBoolean("facedTheBoss"));
         completedAutoQuest = (Switch) findViewById(R.id.didAutoQuestBoolean);
+        completedAutoQuest.setChecked(intent.getExtras().getBoolean("completedAutoQuest"));
         boostCounter = (Counter) findViewById(R.id.BoostCounter);
+        boostCounter.counterTextView;
         levitateCounter = (Counter) findViewById(R.id.LevitateCounter);
         forceCounter = (Counter) findViewById(R.id.ForceCounter);
         //

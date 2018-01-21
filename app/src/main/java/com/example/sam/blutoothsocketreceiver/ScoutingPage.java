@@ -30,11 +30,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static com.example.sam.blutoothsocketreceiver.R.id.didFaceBossBoolean;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
@@ -58,11 +58,11 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamThreeDataScore;
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
-    Boolean facedTheBoss;
-    Boolean completedAutoQuest;
-    Boolean boostCounter;
-    Boolean levitateCounter;
-    Boolean forceCounter;
+    Boolean facedTheBoss = false;
+    Boolean didAutoQuest = false;
+    Integer boostC = 0;
+    Integer levitateC = 0;
+    Integer forceC = 0;
     Boolean isMute;
     JSONObject object;
     Intent next;
@@ -71,7 +71,9 @@ public class ScoutingPage extends ActionBarActivity {
     String teamOneNotes;
     String teamTwoNotes;
     String teamThreeNotes;
-
+    TextView boostCounterView;
+    TextView levitateCounterView;
+    TextView forceCounterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,10 @@ public class ScoutingPage extends ActionBarActivity {
         teamOneNotes = "";
         teamTwoNotes = "";
         teamThreeNotes = "";
+
+        boostCounterView = (TextView) findViewById(R.id.BoostCounter);
+        levitateCounterView = (TextView) findViewById(R.id.LevitateCounter);
+        forceCounterView = (TextView) findViewById(R.id.ForceCounter);
     }
 
     //warns the user that going back will change data
@@ -130,7 +136,8 @@ public class ScoutingPage extends ActionBarActivity {
         SuperScoutingPanel paneltwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(panelTwo);
         SuperScoutingPanel panelthree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
         for (int i = 0; i < 3; i++) {
-            if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) || (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) ){
+            if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i)) ||
+                    (panelone.getData().get(dataNames.get(i))) == (panelthree.getData().get(dataNames.get(i))) || (paneltwo.getData().get(dataNames.get(i)) == panelthree.getData().get(dataNames.get(i))) ){
             canProceed = false;
             return canProceed;}
            /* if (panelone.getData().get(dataNames.get(i)) == paneltwo.getData().get(dataNames.get(i))){
@@ -205,20 +212,10 @@ public class ScoutingPage extends ActionBarActivity {
         if (allianceFoulInt != null && allianceFoulInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalFoulEditText)).setText(String.valueOf(allianceFoulInt));
         }
-        if (facedTheBoss != null) {
-            ((Switch) finalDataView.findViewById(R.id.didFaceBossBoolean)).setChecked(false);
-        }
-        if (completedAutoQuest != null) {
-            ((Switch) finalDataView.findViewById(R.id.didAutoQuestBoolean)).setChecked(false);
-        }
-        if (boostCounter != null) {
-            ((Counter) finalDataView.findViewById(R.id.BoostCounter)).getDataValue();
-        }
-        if (forceCounter != null) {
-            ((Counter) finalDataView.findViewById(R.id.ForceCounter)).getDataValue();
-        }
-        if (levitateCounter != null) {
-            ((Counter) finalDataView.findViewById(R.id.LevitateCounter)).getDataValue();
+        ((Switch) finalDataView.findViewById(R.id.didAutoQuestBoolean)).setChecked(didAutoQuest);
+        ((Switch) finalDataView.findViewById(R.id.didFaceBossBoolean)).setChecked(facedTheBoss);
+        if (boostC != null && boostC != 0) {
+            (boostCounterView).setText(String.valueOf(boostC));
         }
         endDataBuilder.setView(finalDataView);
         endDataBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -233,16 +230,19 @@ public class ScoutingPage extends ActionBarActivity {
                 Dialog d = (Dialog) dialog;
                 EditText scoreText = (EditText) d.findViewById(R.id.finalScoreEditText);
                 EditText foulText = (EditText) d.findViewById(R.id.finalFoulEditText);
-                Switch facedTheBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
+                Switch facedBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
                 Switch completedAutoQuest = (Switch) d.findViewById(R.id.didAutoQuestBoolean);
                 Counter boostCounter = (Counter) d.findViewById(R.id.BoostCounter);
                 Counter forceCounter = (Counter) d.findViewById(R.id.ForceCounter);
                 Counter levitateCounter = (Counter) d.findViewById(R.id.LevitateCounter);
 
-
                 allianceFoulData = foulText.getText().toString();
                 allianceScoreData = scoreText.getText().toString();
-
+                didAutoQuest = completedAutoQuest.isChecked();
+                facedTheBoss = facedBoss.isChecked();
+                boostC = boostCounter.getDataValue();
+                forceC = forceCounter.getDataValue();
+                levitateC = levitateCounter.getDataValue();
 
                 try {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
@@ -258,19 +258,19 @@ public class ScoutingPage extends ActionBarActivity {
                 if (alliance.equals("Blue Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("blueScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedBlue").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidFaceBoss").setValue(facedTheBoss.isChecked());
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidAutoQuest").setValue(completedAutoQuest.isChecked());
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
-                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidFaceBoss").setValue(facedTheBoss);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueDidAutoQuest").setValue(didAutoQuest);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Boost").setValue(boostC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Levitate").setValue(levitateC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesInVaultFinal").child("Force").setValue(forceC);
                 } else if (alliance.equals("Red Alliance")) {
                     dataBase.child("/Matches").child(numberOfMatch).child("redScore").setValue(allianceScoreInt);
                     dataBase.child("/Matches").child(numberOfMatch).child("foulPointsGainedRed").setValue(allianceFoulInt);
-                    dataBase.child("/Matches").child(numberOfMatch).child("redDidFaceBoss").setValue(facedTheBoss.isChecked());
-                    dataBase.child("/Matches").child(numberOfMatch).child("redDidAutoQuest").setValue(completedAutoQuest.isChecked());
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Boost").setValue(boostCounter.getDataValue());
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Levitate").setValue(levitateCounter.getDataValue());
-                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Force").setValue(forceCounter.getDataValue());
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidFaceBoss").setValue(facedTheBoss);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redDidAutoQuest").setValue(didAutoQuest);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Boost").setValue(boostC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Levitate").setValue(levitateC);
+                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesInVaultFinal").child("Force").setValue(forceC);
                 }
 
                 dialog.cancel();
@@ -323,11 +323,11 @@ public class ScoutingPage extends ActionBarActivity {
         intent.putExtra("dataBaseUrl", dataBaseUrl);
         intent.putExtra("allianceScore", allianceScoreData);
         intent.putExtra("allianceFoul", allianceFoulData);
-        intent.putExtra("levitateCounter", levitateCounter);
-        intent.putExtra("forceCounter", forceCounter);
-        intent.putExtra("boostCounter", boostCounter);
-        intent.putExtra("autoQuest", completedAutoQuest);
-        intent.putExtra("faceBoss", didFaceBossBoolean);
+        intent.putExtra("levitateC", levitateC);
+        intent.putExtra("forceC", forceC);
+        intent.putExtra("boostC", boostC);
+        intent.putExtra("completedAutoQuest", didAutoQuest);
+        intent.putExtra("facedTheBoss", facedTheBoss);
         intent.putExtra("mute", isMute);
         intent.putStringArrayListExtra("dataNameOne", teamOneDataName);
         intent.putStringArrayListExtra("ranksOfOne", teamOneDataScore);
@@ -481,37 +481,37 @@ public class ScoutingPage extends ActionBarActivity {
         forceDialog.show();
     }
 
-    public void Lev(View view) {
+    public void levitate(View view) {
         final ToggleButton Levtoggle = (ToggleButton) findViewById(R.id.Lev);
         Levtoggle.setChecked(true);
     }
 
-    public void forceone(View view){
+    public void forceOne(View view){
         final ToggleButton forceonetoggle = (ToggleButton) findViewById(R.id.forceone);
         forceonetoggle.setChecked(true);
     }
 
-    public void forcetwo(View view) {
+    public void forceTwo(View view) {
         final ToggleButton forcetwotoggle = (ToggleButton) findViewById(R.id.forcetwo);
         forcetwotoggle.setChecked(true);
     }
 
-    public void forcethree(View view) {
+    public void forceThree(View view) {
         final ToggleButton forcethreetoggle = (ToggleButton) findViewById(R.id.forcethree);
         forcethreetoggle.setChecked(true);
     }
 
-    public void boostone(View view) {
+    public void boostOne(View view) {
         final ToggleButton boostonetoggle = (ToggleButton) findViewById(R.id.boostone);
         boostonetoggle.setChecked(true);
     }
 
-    public void boosttwo(View view) {
+    public void boostTwo(View view) {
         final ToggleButton boosttwotoggle = (ToggleButton) findViewById(R.id.boosttwo);
         boosttwotoggle.setChecked(true);
     }
 
-    public void boostthree(View view) {
+    public void boostThree(View view) {
         final ToggleButton boostthreetoggle = (ToggleButton) findViewById(R.id.boostthree);
         boostthreetoggle.setChecked(true);
     }
