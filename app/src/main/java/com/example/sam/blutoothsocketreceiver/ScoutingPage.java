@@ -71,9 +71,9 @@ public class ScoutingPage extends ActionBarActivity {
     String teamOneNotes;
     String teamTwoNotes;
     String teamThreeNotes;
-    TextView boostCounterView;
-    TextView levitateCounterView;
-    TextView forceCounterView;
+    Counter boostCounterView;
+    Counter levitateCounterView;
+    Counter forceCounterView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,9 +94,6 @@ public class ScoutingPage extends ActionBarActivity {
         teamTwoNotes = "";
         teamThreeNotes = "";
 
-        boostCounterView = (TextView) findViewById(R.id.BoostCounter);
-        levitateCounterView = (TextView) findViewById(R.id.LevitateCounter);
-        forceCounterView = (TextView) findViewById(R.id.ForceCounter);
     }
 
     //Warns the user that going back will change data
@@ -206,6 +203,9 @@ public class ScoutingPage extends ActionBarActivity {
         endDataBuilder.setCancelable(false);
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View finalDataView = inflater.inflate(R.layout.finaldatapoints, null);
+        boostCounterView = (Counter) finalDataView.findViewById(R.id.BoostCounter);
+        levitateCounterView = (Counter) finalDataView.findViewById(R.id.LevitateCounter);
+        forceCounterView = (Counter) finalDataView.findViewById(R.id.ForceCounter);
         if (allianceScoreInt != null && allianceScoreInt != 0) {
             ((EditText) finalDataView.findViewById(R.id.finalScoreEditText)).setText(String.valueOf(allianceScoreInt));
         }
@@ -215,7 +215,13 @@ public class ScoutingPage extends ActionBarActivity {
         ((Switch) finalDataView.findViewById(R.id.didAutoQuestBoolean)).setChecked(didAutoQuest);
         ((Switch) finalDataView.findViewById(R.id.didFaceBossBoolean)).setChecked(facedTheBoss);
         if (boostC != null && boostC != 0) {
-            (boostCounterView).setText(String.valueOf(boostC));
+            boostCounterView.refreshCounter(boostC);
+        }
+        if (levitateC != null && levitateC != 0) {
+            levitateCounterView.refreshCounter(levitateC);
+        }
+        if (forceC != null && forceC != 0) {
+            forceCounterView.refreshCounter(forceC);
         }
         endDataBuilder.setView(finalDataView);
         endDataBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -232,17 +238,14 @@ public class ScoutingPage extends ActionBarActivity {
                 EditText foulText = (EditText) d.findViewById(R.id.finalFoulEditText);
                 Switch facedBoss = (Switch) d.findViewById(R.id.didFaceBossBoolean);
                 Switch completedAutoQuest = (Switch) d.findViewById(R.id.didAutoQuestBoolean);
-                Counter boostCounter = (Counter) d.findViewById(R.id.BoostCounter);
-                Counter forceCounter = (Counter) d.findViewById(R.id.ForceCounter);
-                Counter levitateCounter = (Counter) d.findViewById(R.id.LevitateCounter);
 
                 allianceFoulData = foulText.getText().toString();
                 allianceScoreData = scoreText.getText().toString();
                 didAutoQuest = completedAutoQuest.isChecked();
                 facedTheBoss = facedBoss.isChecked();
-                boostC = boostCounter.getDataValue();
-                forceC = forceCounter.getDataValue();
-                levitateC = levitateCounter.getDataValue();
+                boostC = boostCounterView.getDataValue();
+                forceC = forceCounterView.getDataValue();
+                levitateC = levitateCounterView.getDataValue();
 
                 try {
                     allianceScoreInt = Integer.parseInt(allianceScoreData);
@@ -323,9 +326,9 @@ public class ScoutingPage extends ActionBarActivity {
         intent.putExtra("dataBaseUrl", dataBaseUrl);
         intent.putExtra("allianceScore", allianceScoreData);
         intent.putExtra("allianceFoul", allianceFoulData);
-        intent.putExtra("levitateC", levitateC);
-        intent.putExtra("forceC", forceC);
-        intent.putExtra("boostC", boostC);
+        intent.putExtra("levitateCount", levitateC);
+        intent.putExtra("forceCount", forceC);
+        intent.putExtra("boostCount", boostC);
         intent.putExtra("completedAutoQuest", didAutoQuest);
         intent.putExtra("facedTheBoss", facedTheBoss);
         intent.putExtra("mute", isMute);
