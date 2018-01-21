@@ -62,7 +62,7 @@ public class ScoutingPage extends ActionBarActivity {
     ArrayList<String> teamTwoDataScore;
     ArrayList<String> teamThreeDataName;
     ArrayList<String> teamThreeDataScore;
-    Map<String, String> allianceCubesForPowerup = new HashMap<>();
+    Map<String, Integer> allianceCubesForPowerup = new HashMap<>();
     Integer allianceScoreInt = 0;
     Integer allianceFoulInt = 0;
     Boolean isMute;
@@ -76,6 +76,7 @@ public class ScoutingPage extends ActionBarActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     ToggleButton levitate;
+    int levitateNum;
 
 
     @Override
@@ -170,8 +171,13 @@ public class ScoutingPage extends ActionBarActivity {
                 final SuperScoutingPanel panelTwo = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelTwo);
                 final SuperScoutingPanel panelThree = (SuperScoutingPanel) getSupportFragmentManager().findFragmentById(R.id.panelThree);
 
+                levitateNum = 0;
 
-                //use the allianceCubesForPowerUp Map here to write to firebase;
+                if(levitate.isChecked()) {
+                    levitateNum = 3;
+                }
+
+
 
 
                 listDataValues();
@@ -190,22 +196,20 @@ public class ScoutingPage extends ActionBarActivity {
                             }
                             if(alliance.equals("Blue Alliance")){
                                 for (int i = 0; i < allianceCubesForPowerup.size(); i++){
-                                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i].toString()));
+                                    dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i]));
                                 }
 
-                                //write for blue alliance
                             }else{
                                 for (int i = 0; i < allianceCubesForPowerup.size(); i++){
-                                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i].toString()));
+                                    dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child(allianceCubesForPowerup.keySet().toArray()[i].toString()).setValue(allianceCubesForPowerup.get(allianceCubesForPowerup.keySet().toArray()[i]));
                                 }
-                                //write for red alliance
                             }
 
                             if(alliance.equals("Blue Alliance")){
-                                dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Levitate").setValue(levitate);
+                                dataBase.child("/Matches").child(numberOfMatch).child("blueCubesForPowerup").child("Levitate").setValue(levitateNum);
                             }
                             else{
-                                dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Levitate").setValue(levitate);
+                                dataBase.child("/Matches").child(numberOfMatch).child("redCubesForPowerup").child("Levitate").setValue(levitateNum);
                             }
                         } catch (DatabaseException FBE) {
                             Log.e("firebase", "scoutingPage");
@@ -505,7 +509,7 @@ public class ScoutingPage extends ActionBarActivity {
                         ArrayList<ToggleButton> forceToggles = new ArrayList<>(Arrays.asList(f1, f2, f3));
                         for (int i = 0; i < forceToggles.size(); i++){
                             if(forceToggles.get(i).isChecked()){
-                                allianceCubesForPowerup.put("Force", forceToggles.get(i).getText().toString());
+                                allianceCubesForPowerup.put("Force", Integer.parseInt(forceToggles.get(i).getText().toString()));
                                 Log.e("MAP", allianceCubesForPowerup.toString());
                             }
                         }
@@ -540,7 +544,7 @@ public class ScoutingPage extends ActionBarActivity {
                         ArrayList<ToggleButton> boostToggles = new ArrayList<>(Arrays.asList(b1, b2, b3));
                         for (int i = 0; i < boostToggles.size(); i++){
                             if(boostToggles.get(i).isChecked()){
-                                allianceCubesForPowerup.put("Boost", boostToggles.get(i).getText().toString());
+                                allianceCubesForPowerup.put("Boost", Integer.parseInt(boostToggles.get(i).getText().toString()));
                                 Log.e("MAP", allianceCubesForPowerup.toString());
                             }
                         }
