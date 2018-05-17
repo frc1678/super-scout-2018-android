@@ -3,13 +3,8 @@ package com.example.sam.blutoothsocketreceiver;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ScaleDrawable;
 import android.view.View;
 import android.widget.Button;
-
-import org.jcodec.common.DictionaryCompressor;
-import org.jcodec.common.RunLength;
 
 import java.util.HashMap;
 import java.util.Map;

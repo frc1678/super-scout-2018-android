@@ -18,7 +18,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
@@ -29,20 +28,14 @@ import android.widget.ToggleButton;
 import com.google.firebase.database.DatabaseException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import org.jcodec.common.DictionaryCompressor;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.example.sam.blutoothsocketreceiver.R.id.Boost;
-import static com.example.sam.blutoothsocketreceiver.R.id.Force;
-import static com.example.sam.blutoothsocketreceiver.R.id.boostone;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelOne;
 import static com.example.sam.blutoothsocketreceiver.R.id.panelTwo;
 
