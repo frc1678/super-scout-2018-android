@@ -95,7 +95,6 @@ public class FinalDataPoints extends ActionBarActivity {
         firebaseRef = FirebaseDatabase.getInstance().getReference();
         allianceScore = (EditText) findViewById(R.id.finalScoreEditText);
         allianceFoul = (EditText) findViewById(R.id.finalFoulEditText);
-        //
         facedTheBoss = (Switch) findViewById(R.id.didFaceBossBoolean);
         facedTheBoss.setChecked(intent.getExtras().getBoolean("facedTheBoss"));
         completedAutoQuest = (Switch) findViewById(R.id.didAutoQuestBoolean);
@@ -106,7 +105,6 @@ public class FinalDataPoints extends ActionBarActivity {
         levitateCounterView.refreshCounter(intent.getExtras().getInt("levitateCount"));
         forceCounterView = (Counter) findViewById(R.id.ForceCounter);
         forceCounterView.refreshCounter(intent.getExtras().getInt("forceCount"));
-        //
         finalScore = (TextView)findViewById(R.id.finalScoreTextView);
         allianceScore.setCursorVisible(false);
 
@@ -266,7 +264,7 @@ public class FinalDataPoints extends ActionBarActivity {
                         superExternalData.put("matchNumber", numberOfMatch);
                         superExternalData.put("alliance", alliance);
                         superExternalData.put(allianceSimple + "Score", allianceScoreNum);
-                        superExternalData.put(allianceSimple + "FoulPointsGained", allianceFoulNum); //TODO: Why is the firebase datapoint for this foulPointsGained<COLOR> instead of <color>FoulPointsGained?
+                        superExternalData.put(allianceSimple + "FoulPointsGained", allianceFoulNum);
                         superExternalData.put(teamNumberOne, jsonTeamOne);
                         superExternalData.put(teamNumberTwo, jsonTeamTwo);
                         superExternalData.put(teamNumberThree, jsonTeamThree);
@@ -281,7 +279,7 @@ public class FinalDataPoints extends ActionBarActivity {
                     }
                     ArrayList<String> teamNumbers = new ArrayList<>(Arrays.asList(teamNumberOne, teamNumberTwo, teamNumberThree));
 
-                    for (int i = 0; i < teamNumbers.size(); i++){ //TODO: Fix this (?)
+                    for (int i = 0; i < teamNumbers.size(); i++){
                         firebaseRef.child("TeamInMatchDatas").child(teamNumbers.get(i) + "Q" + numberOfMatch).child("teamNumber").setValue(Integer.parseInt(teamNumbers.get(i)));
                         firebaseRef.child("TeamInMatchDatas").child(teamNumbers.get(i) + "Q" + numberOfMatch).child("matchNumber").setValue(Integer.parseInt(numberOfMatch));
                     }
@@ -320,7 +318,7 @@ public class FinalDataPoints extends ActionBarActivity {
             finalNotesIntent.putExtra("teamNumTwo", teamNumberTwo);
             finalNotesIntent.putExtra("teamNumThree", teamNumberThree);
             updateNotes();
-            finalNotesIntent.putExtra("teamOneNotes", teamOneNotes); //TODO: Make sure notes are saved on return & save notes to teamOneNotes.
+            finalNotesIntent.putExtra("teamOneNotes", teamOneNotes);
             finalNotesIntent.putExtra("teamTwoNotes", teamTwoNotes);
             finalNotesIntent.putExtra("teamThreeNotes", teamThreeNotes);
             finalNotesIntent.putExtra("qualNum", numberOfMatch);
@@ -374,8 +372,7 @@ public class FinalDataPoints extends ActionBarActivity {
         levitateForPowerup = intent.getExtras().getInt("levitateForPowerup");
     }
 
-    public void sendAfterMatchData(){ //TODO: Replace 'hard-coded' red abd blue with a variable (ex: alliance + "Score")
-        //TODO: Prevent submission of vault data lower than ForPowerup
+    public void sendAfterMatchData(){
         JSONObject allianceTeams = new JSONObject();
         int teamIntOne = Integer.parseInt(teamNumberOne);
         int teamIntTwo = Integer.parseInt(teamNumberTwo);

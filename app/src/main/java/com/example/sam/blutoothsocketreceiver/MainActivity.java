@@ -69,7 +69,6 @@ public class MainActivity extends ActionBarActivity {
     Boolean isRed = false;
     Integer matchNumber = 0;
     DatabaseReference dataBase;
-    //TODO: Why are these global?
     String previousScore, previousFoul, previousAllianceSimple;
     Boolean facedTheBoss = false, didAutoQuest = false;
     Integer previousBoost = 0, previousLevitate = 0, previousForce = 0;
@@ -79,8 +78,6 @@ public class MainActivity extends ActionBarActivity {
     boolean isOverriden;
     ToggleButton mute;
     ArrayAdapter<String> adapter;
-
-    //THIS IS THE MASTER BRANCH
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +164,6 @@ public class MainActivity extends ActionBarActivity {
     public void getSuperData(View view) {
         searchBar = (EditText) findViewById(R.id.searchEditText);
         searchBar.setFocusable(false);
-        //listenForFileListClick();
         updateListView();
         searchBar.setFocusableInTouchMode(true);
     }
@@ -231,9 +227,7 @@ public class MainActivity extends ActionBarActivity {
                     Toast.makeText(context, "Input team two number!", Toast.LENGTH_SHORT).show();
                 } else if (teamNumberThree.getText().toString().equals("")) {
                     Toast.makeText(context, "Input team three number!", Toast.LENGTH_SHORT).show();
-                } //else if(teamNumberOne.getText().toString().equals("Not Available")){
-//                    Toast.makeText(context, "This Match Does Not Exist!", Toast.LENGTH_SHORT).show();
-//                }
+                }
                 else {
                     commitSharedPreferences();
                     Intent intent = new Intent(context, FieldSetupPage.class);
@@ -496,8 +490,6 @@ public class MainActivity extends ActionBarActivity {
                         dataBase.child("TeamInMatchDatas").child(matchAndTeamTwo).updateChildren(teamTwoDataJsonMap);
                         dataBase.child("TeamInMatchDatas").child(matchAndTeamThree).updateChildren(teamThreeDataJsonMap);
 
-                        //TODO: Add this line in.
-                        //dataBase.child("Matches").child(matchNum).child(previousAllianceSimple + "AllianceTeamNumbers").setValue(teamNumbers); //TODO: Convert this to Gson
                         dataBase.child("Matches").child(matchNum).child(allianceSimple + "Score").setValue(score);
                         dataBase.child("Matches").child(matchNum).child("foulPointsGained" + allianceSimple.substring(0,1).toUpperCase() + allianceSimple.substring(1)).setValue(foulPointsGained);
                         dataBase.child("Matches").child(matchNum).child("number").setValue(Integer.valueOf(matchNum));
@@ -506,7 +498,6 @@ public class MainActivity extends ActionBarActivity {
                         dataBase.child("Matches").child(matchNum).child(allianceSimple + "CubesInVaultFinal").setValue(cubesInVaultFinalJsonMap);
                         dataBase.child("Matches").child(matchNum).child(allianceSimple + "CubesForPowerup").setValue(cubesForPowerupJsonMap);
 
-                        //TODO: Add check against current Firebase (low priority)
                         dataBase.child("Matches").child(matchNum).child("blueSwitch").setValue(blueSwitchJsonMap);
                         dataBase.child("Matches").child(matchNum).child("scale").setValue(scaleJsonMap);
                         dataBase.child("Matches").child(matchNum).child("redSwitch").setValue(redSwitchJsonMap);
@@ -599,9 +590,8 @@ public class MainActivity extends ActionBarActivity {
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) { //TODO: Incomplete. Add ability to change all data and autofill with previous data.
+            public boolean onItemLongClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-                // TODO: Add this back in when it works.
                 final String name = parent.getItemAtPosition(position).toString();
                 String splitName[] = name.split("_");
                 final String editMatchNumber = splitName[0].replace("Q", "");
@@ -633,7 +623,7 @@ public class MainActivity extends ActionBarActivity {
                     Log.e("read Super Data", "failed");
                     toasts("Failed to read Super Data.", false);
                 }
-                AlertDialog.Builder builder = new AlertDialog.Builder(context); //TODO: Add an edit alertdialog for fieldsetup and notes (maybe-check)
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Edit Alliance Score for " + name + ": ");
                 final View finalDataPtsView = LayoutInflater.from(context).inflate(R.layout.finaldatapoints, null);
                 ((EditText) finalDataPtsView.findViewById(R.id.finalScoreEditText)).setText(previousScore);
@@ -659,7 +649,6 @@ public class MainActivity extends ActionBarActivity {
                         Dialog d = (Dialog) dialog;
                         File dir = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data/" + name);
                         dir.mkdir();
-                        //TODO: Get all values here and send to firebase.
                         previousScore = ((EditText) d.findViewById(R.id.finalScoreEditText)).getText().toString(); //Now it's the new score
                         previousFoul = ((EditText) d.findViewById(R.id.finalFoulEditText)).getText().toString(); //Foul refers to foul points gained by that team
                         previousBoost = ((Counter) d.findViewById(R.id.BoostCounter)).getDataValue();
