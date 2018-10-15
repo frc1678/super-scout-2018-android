@@ -115,9 +115,9 @@ public class FieldSetupPage extends AppCompatActivity{
                 String blueSwitch = formatPlateData(configMap.get(R.id.blueTopPlateButton), configMap.get(R.id.blueBottomPlateButton));
                 String scale = formatPlateData(configMap.get(R.id.scaleTopPlateButton), configMap.get(R.id.scaleBottomPlateButton));
                 String redSwitch = formatPlateData(configMap.get(R.id.redTopPlateButton), configMap.get(R.id.redBottomPlateButton));
-                next.putExtra("blueSwitch", blueSwitch);
-                next.putExtra("scale", scale);
-                next.putExtra("redSwitch", redSwitch);
+                next.putExtra("blueSwitch", configMap.get(R.id.blueTopPlateButton));
+                next.putExtra("scale", configMap.get(R.id.scaleTopPlateButton));
+                next.putExtra("redSwitch", configMap.get(R.id.redTopPlateButton));
                 startActivity(next);
             }
 

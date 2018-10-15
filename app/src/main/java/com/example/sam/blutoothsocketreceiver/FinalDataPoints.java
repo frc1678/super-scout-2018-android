@@ -54,6 +54,8 @@ public class FinalDataPoints extends ActionBarActivity {
     String blueSwitch;
     String redSwitch;
     String scale;
+    Boolean didAutoQuest;
+    Boolean didFaceBoss;
     TextView finalScore;
     EditText allianceScore, allianceFoul;
     Switch facedTheBoss;
@@ -302,15 +304,41 @@ public class FinalDataPoints extends ActionBarActivity {
                     });
                 }
             }.start();
-            Intent backToHome = new Intent(context, MainActivity.class);
-            if(alliance.equals("Red Alliance")){
-                backToHome.putExtra("shouldBeRed", true);
-            }else {
-                backToHome.putExtra("shouldBeRed", false);
-            }
-            backToHome.putExtra("number", numberOfMatch);
-            backToHome.putExtra("mute", isMute);
-            startActivity(backToHome);
+
+            Intent QrDisplay = new Intent(context, QrDisplay.class);
+            QrDisplay.putExtra("matchNumber", numberOfMatch);
+            QrDisplay.putExtra("alliance", alliance);
+            QrDisplay.putExtra("teamNumberOne", teamNumberOne);
+            QrDisplay.putExtra("teamNumberTwo", teamNumberTwo);
+            QrDisplay.putExtra("teamNumberThree", teamNumberThree);
+
+            QrDisplay.putExtra("superNotesOne", teamOneNotes);
+            QrDisplay.putExtra("superNotesTwo", teamTwoNotes);
+            QrDisplay.putExtra("superNotesThree", teamThreeNotes);
+
+            QrDisplay.putExtra("boostForPowerUp", boostForPowerup);
+            QrDisplay.putExtra("forceForPowerUp", forceForPowerup);
+            QrDisplay.putExtra("levitateForPowerUp", levitateForPowerup);
+
+            QrDisplay.putExtra("boostInVaultFinal", boostCounterView.getDataValue());
+            QrDisplay.putExtra("forceInVaultFinal", forceCounterView.getDataValue());
+            QrDisplay.putExtra("levitateInVaultFinal", levitateCounterView.getDataValue());
+
+            QrDisplay.putExtra("didAutoQuest", didAutoQuest);
+            QrDisplay.putExtra("didFaceBoss", didFaceBoss);
+            QrDisplay.putExtra("score", allianceScore.getText().toString());
+
+            QrDisplay.putExtra("blueSwitch", blueSwitch);
+            QrDisplay.putExtra("redSwitch", redSwitch);
+            QrDisplay.putExtra("scale", scale);
+
+            QrDisplay.putStringArrayListExtra("teamOneDataName", teamOneDataName);
+            QrDisplay.putStringArrayListExtra("teamOneDataScore", teamOneDataScore);
+            QrDisplay.putStringArrayListExtra("teamTwoDataName", teamTwoDataName);
+            QrDisplay.putStringArrayListExtra("teamTwoDataScore", teamTwoDataScore);
+            QrDisplay.putStringArrayListExtra("teamThreeDataName", teamThreeDataName);
+            QrDisplay.putStringArrayListExtra("teamThreeDataScore", teamThreeDataScore);
+            startActivity(QrDisplay);
         }
 
         if(id == R.id.finalSuperNotes){
@@ -368,6 +396,9 @@ public class FinalDataPoints extends ActionBarActivity {
         blueSwitch = intent.getExtras().getString("blueSwitch");
         redSwitch = intent.getExtras().getString("redSwitch");
         scale = intent.getExtras().getString("scale");
+
+        didAutoQuest = intent.getExtras().getBoolean("completedAutoQuest");
+        didFaceBoss = intent.getExtras().getBoolean("facedTheBoss");
 
         forceForPowerup = intent.getExtras().getInt("forceForPowerup");
         boostForPowerup = intent.getExtras().getInt("boostForPowerup");
