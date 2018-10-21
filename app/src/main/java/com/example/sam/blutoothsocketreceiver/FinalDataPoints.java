@@ -281,15 +281,7 @@ public class FinalDataPoints extends ActionBarActivity {
                     } catch(JSONException JE) {
                         Log.e("JSON Error", "couldn't put keys and values in json object");
                     }
-                    ArrayList<String> teamNumbers = new ArrayList<>(Arrays.asList(teamNumberOne, teamNumberTwo, teamNumberThree));
 
-                    for (int i = 0; i < teamNumbers.size(); i++){ //TODO: Fix this (?)
-                        firebaseRef.child("TeamInMatchDatas").child(teamNumbers.get(i) + "Q" + numberOfMatch).child("teamNumber").setValue(Integer.parseInt(teamNumbers.get(i)));
-                        firebaseRef.child("TeamInMatchDatas").child(teamNumbers.get(i) + "Q" + numberOfMatch).child("matchNumber").setValue(Integer.parseInt(numberOfMatch));
-                    }
-                    firebaseRef.child("TeamInMatchDatas").child(teamNumberOne + "Q" + numberOfMatch).child("superNotes").setValue(teamOneNotes);
-                    firebaseRef.child("TeamInMatchDatas").child(teamNumberTwo + "Q" + numberOfMatch).child("superNotes").setValue(teamTwoNotes);
-                    firebaseRef.child("TeamInMatchDatas").child(teamNumberThree + "Q" + numberOfMatch).child("superNotes").setValue(teamThreeNotes);
                     sendAfterMatchData();
 
                     System.out.println("SuperExternalData: " + superExternalData.toString());
@@ -305,6 +297,7 @@ public class FinalDataPoints extends ActionBarActivity {
                 }
             }.start();
 
+            updateNotes();
             Intent QrDisplay = new Intent(context, QrDisplay.class);
             QrDisplay.putExtra("matchNumber", numberOfMatch);
             QrDisplay.putExtra("alliance", alliance);
@@ -324,9 +317,10 @@ public class FinalDataPoints extends ActionBarActivity {
             QrDisplay.putExtra("forceInVaultFinal", forceCounterView.getDataValue());
             QrDisplay.putExtra("levitateInVaultFinal", levitateCounterView.getDataValue());
 
-            QrDisplay.putExtra("didAutoQuest", didAutoQuest);
-            QrDisplay.putExtra("didFaceBoss", didFaceBoss);
+            QrDisplay.putExtra("didAutoQuest", completedAutoQuest.isChecked());
+            QrDisplay.putExtra("didFaceBoss", facedTheBoss.isChecked());
             QrDisplay.putExtra("score", allianceScore.getText().toString());
+            QrDisplay.putExtra("foul", allianceFoul.getText().toString());
 
             QrDisplay.putExtra("blueSwitch", blueSwitch);
             QrDisplay.putExtra("redSwitch", redSwitch);
@@ -338,6 +332,8 @@ public class FinalDataPoints extends ActionBarActivity {
             QrDisplay.putStringArrayListExtra("teamTwoDataScore", teamTwoDataScore);
             QrDisplay.putStringArrayListExtra("teamThreeDataName", teamThreeDataName);
             QrDisplay.putStringArrayListExtra("teamThreeDataScore", teamThreeDataScore);
+
+            QrDisplay.putExtra("isMute", isMute);
             startActivity(QrDisplay);
         }
 
@@ -370,7 +366,6 @@ public class FinalDataPoints extends ActionBarActivity {
     }
 
     public void getExtrasForFinalData(){
-
         teamOneNotes = intent.getExtras().getString("teamOneNotes");
         teamTwoNotes = intent.getExtras().getString("teamTwoNotes");
         teamThreeNotes = intent.getExtras().getString("teamThreeNotes");
@@ -419,19 +414,6 @@ public class FinalDataPoints extends ActionBarActivity {
         } catch(JSONException JE) {
             Log.e("JSONException", "Failed to make allianceTeams");
         }
-
-        Map<String, Object> allianceTeamsJsonMap = new Gson().fromJson(allianceTeams.toString(), new TypeToken<HashMap<String, Object>>() {}.getType());
-
-        String uppercaseAllianceSimple = alliance.substring(0, alliance.indexOf(" "));
-
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "AllianceTeamNumbers").setValue(allianceTeamsJsonMap);
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "Score").setValue(Integer.parseInt(allianceScore.getText().toString()));
-        firebaseRef.child("/Matches").child(numberOfMatch).child("foulPointsGained" + uppercaseAllianceSimple).setValue(Integer.parseInt(allianceFoul.getText().toString()));
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "DidFaceBoss").setValue(facedTheBoss.isChecked());
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "DidAutoQuest").setValue(completedAutoQuest.isChecked());
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "CubesInVaultFinal").child("Boost").setValue(boostCounterView.getDataValue());
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "CubesInVaultFinal").child("Levitate").setValue(levitateCounterView.getDataValue());
-        firebaseRef.child("/Matches").child(numberOfMatch).child(allianceSimple + "CubesInVaultFinal").child("Force").setValue(forceCounterView.getDataValue());
     }
 
     private void updateNotes() {

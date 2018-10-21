@@ -70,9 +70,9 @@ public class MainActivity extends ActionBarActivity {
     Integer matchNumber = 0;
     DatabaseReference dataBase;
     //TODO: Why are these global?
-    String previousScore, previousFoul, previousAllianceSimple;
-    Boolean facedTheBoss = false, didAutoQuest = false;
-    Integer previousBoost = 0, previousLevitate = 0, previousForce = 0;
+    //String previousScore, previousFoul, previousAllianceSimple;
+    //Boolean facedTheBoss = false, didAutoQuest = false;
+    //Integer previousBoost = 0, previousLevitate = 0, previousForce = 0;
 
     final static String dataBaseUrl = Constants.dataBaseUrl;
     boolean isMute = false;
@@ -129,13 +129,13 @@ public class MainActivity extends ActionBarActivity {
         commitSharedPreferences();
 
         listenForResendClick();
-        listLongClick();
+        //listLongClick();
 
 
     }
 
     //resends all data on the currently viewed list of data
-    public void resendAllClicked(View view) {
+    /*public void resendAllClicked(View view) {
         new AlertDialog.Builder(this)
                 .setTitle("RESEND ALL?")
                 .setMessage("RESEND ALL DATA?")
@@ -155,19 +155,18 @@ public class MainActivity extends ActionBarActivity {
                                 }
                             }
                         }
-                        resendSuperData(dataPoints);
+                        //resendSuperData(dataPoints);
 
                     }
                 })
                 .setNegativeButton(android.R.string.no, null)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
-    }
+    }*/
 
     public void getSuperData(View view) {
         searchBar = (EditText) findViewById(R.id.searchEditText);
         searchBar.setFocusable(false);
-        //listenForFileListClick();
         updateListView();
         searchBar.setFocusableInTouchMode(true);
     }
@@ -563,8 +562,7 @@ public class MainActivity extends ActionBarActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = parent.getItemAtPosition(position).toString();
-                name = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data/" + name;
+                String name = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data/" + parent.getItemAtPosition(position).toString();
 
                 final String fileName = name;
                 final String[] nameOfResendMatch = name.split("Q");
@@ -595,7 +593,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    public void listLongClick(){
+    /*public void listLongClick(){
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -719,6 +717,6 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
-    }
+    }*/
 
 }
