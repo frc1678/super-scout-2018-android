@@ -4,6 +4,6 @@
 
     <item
         android:id ="@+id/backToMainActivity"
-        android:title="Back To Homepage"
+        android:title="Done"
         app:showAsAction="always"/>
 </menu>

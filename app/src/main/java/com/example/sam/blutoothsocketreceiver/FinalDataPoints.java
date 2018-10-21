@@ -191,112 +191,6 @@ public class FinalDataPoints extends ActionBarActivity {
                 return false;
             }
 
-            final int allianceScoreNum = score;
-            final int allianceFoulNum = foul;
-
-            //Send the data of the super scout on a separate thread
-            new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        file = null;
-                        //make the directory of the file
-                        dir.mkdir();
-                        //can delete when doing the actual thing
-                        file = new PrintWriter(new FileOutputStream(new File(dir, ("Q" + numberOfMatch + "_"  + new SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new Date())))));
-                    } catch (IOException IOE) {
-                        return;
-                    }
-
-                    if(!hasRun) {
-                        updateNotes();
-                        teamOneDataName.add("superNotes");
-                        teamOneDataScore.add(teamOneNotes);
-                        teamTwoDataName.add("superNotes");
-                        teamTwoDataScore.add(teamTwoNotes);
-                        teamThreeDataName.add("superNotes");
-                        teamThreeDataScore.add(teamThreeNotes);
-                        hasRun = true;
-                    }
-
-                    try {
-
-                        JSONObject jsonTeamOne = new JSONObject();
-                        JSONObject jsonTeamTwo = new JSONObject();
-                        JSONObject jsonTeamThree= new JSONObject();
-                        JSONObject jsonCubesForPowerup = new JSONObject();
-                        JSONObject jsonCubesInVaultFinal = new JSONObject();
-
-                        JSONObject jsonBlueSwitch = new JSONObject(blueSwitch);
-                        JSONObject jsonRedSwitch = new JSONObject(redSwitch);
-                        JSONObject jsonScale = new JSONObject(scale);
-
-                        for(int position = 0; position < teamOneDataScore.size(); position++) {
-                            if(teamOneDataName.get(position).equals("superNotes")) {
-                                jsonTeamOne.put(reformatDataNames(teamOneDataName.get(position)), teamOneDataScore.get(position));
-                            } else {
-                                jsonTeamOne.put(reformatDataNames(teamOneDataName.get(position)), Integer.parseInt(teamOneDataScore.get(position)));
-                            }
-                        }
-                        for(int position = 0; position < teamTwoDataScore.size(); position++){
-                            if(teamOneDataName.get(position).equals("superNotes")) {
-                                jsonTeamTwo.put(reformatDataNames(teamTwoDataName.get(position)), teamTwoDataScore.get(position));
-                            } else {
-                                jsonTeamTwo.put(reformatDataNames(teamTwoDataName.get(position)), Integer.parseInt(teamTwoDataScore.get(position)));
-                            }
-                        }
-                        for(int position = 0; position < teamThreeDataScore.size(); position++){
-                            if(teamOneDataName.get(position).equals("superNotes")) {
-                                jsonTeamThree.put(reformatDataNames(teamThreeDataName.get(position)), teamThreeDataScore.get(position));
-                            } else {
-                                jsonTeamThree.put(reformatDataNames(teamThreeDataName.get(position)), Integer.parseInt(teamThreeDataScore.get(position)));
-                            }
-                        }
-
-                        jsonCubesInVaultFinal.put("Boost", boostFinal);
-                        jsonCubesInVaultFinal.put("Levitate", levitateFinal);
-                        jsonCubesInVaultFinal.put("Force", forceFinal);
-
-                        jsonCubesForPowerup.put("Boost", boostForPowerup);
-                        jsonCubesForPowerup.put("Levitate", levitateForPowerup);
-                        jsonCubesForPowerup.put("Force", forceForPowerup);
-
-                        superExternalData.put(allianceSimple + "DidAutoQuest", completedAutoQuest.isChecked());
-                        superExternalData.put(allianceSimple + "DidFaceBoss", facedTheBoss.isChecked());
-                        superExternalData.put(allianceSimple + "CubesInVaultFinal", jsonCubesInVaultFinal);
-                        superExternalData.put(allianceSimple + "CubesForPowerup", jsonCubesForPowerup);
-                        superExternalData.put("matchNumber", numberOfMatch);
-                        superExternalData.put("alliance", alliance);
-                        superExternalData.put(allianceSimple + "Score", allianceScoreNum);
-                        superExternalData.put(allianceSimple + "FoulPointsGained", allianceFoulNum); //TODO: Why is the firebase datapoint for this foulPointsGained<COLOR> instead of <color>FoulPointsGained?
-                        superExternalData.put(teamNumberOne, jsonTeamOne);
-                        superExternalData.put(teamNumberTwo, jsonTeamTwo);
-                        superExternalData.put(teamNumberThree, jsonTeamThree);
-                        superExternalData.put("teamOne", teamNumberOne);
-                        superExternalData.put("teamTwo", teamNumberTwo);
-                        superExternalData.put("teamThree", teamNumberThree);
-                        superExternalData.put("blueSwitch", jsonBlueSwitch);
-                        superExternalData.put("redSwitch", jsonRedSwitch);
-                        superExternalData.put("scale", jsonScale);
-                    } catch(JSONException JE) {
-                        Log.e("JSON Error", "couldn't put keys and values in json object");
-                    }
-
-                    sendAfterMatchData();
-
-                    System.out.println("SuperExternalData: " + superExternalData.toString());
-
-                    file.println(superExternalData.toString());
-                    file.close();
-                    context.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(context, "Sent Match Data", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }.start();
-
             updateNotes();
             Intent QrDisplay = new Intent(context, QrDisplay.class);
             QrDisplay.putExtra("matchNumber", numberOfMatch);
@@ -386,7 +280,6 @@ public class FinalDataPoints extends ActionBarActivity {
         dataBaseUrl = intent.getExtras().getString("dataBaseUrl");
         allianceScoreData = intent.getExtras().getString("allianceScore");
         allianceFoulData = intent.getExtras().getString("allianceFoul");
-        isMute = intent.getExtras().getBoolean("mute");
 
         blueSwitch = intent.getExtras().getString("blueSwitch");
         redSwitch = intent.getExtras().getString("redSwitch");

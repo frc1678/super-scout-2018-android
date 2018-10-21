@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -21,7 +22,17 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,12 +76,15 @@ public class QrDisplay extends ActionBarActivity {
     ImageView QRImage;
     Intent intent;
     Activity context;
+    File dir;
+    PrintWriter file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qr_display);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        dir = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/Super_scout_data");
         context = this;
         intent = getIntent();
         getExtras();
@@ -167,6 +181,29 @@ public class QrDisplay extends ActionBarActivity {
         } else {
             scaleCompressed= "1"; }
         compressedData = "S$" + matchNumber + "_" + allianceCompressed + "|p(g" + boostForPowerUp.toString() + "h" + forceForPowerUp.toString() + "i" + levitateForPowerUp.toString() + "),v(g" + boostInVaultFinal.toString() + "h" + forceInVaultFinal.toString() + "i" + levitateInVaultFinal.toString() + "),q" + autoQuestCompressed + ",b" + faceBossCompressed + ",s" + score + ",j" + foul + ",r(d" + blueSwitchCompressed + "e" + scaleCompressed + "f" + redSwitchCompressed + "),t(" + "M" + teamNumberOne + "B" + teamOneDataScore.get(3) + "G" + teamOneDataScore.get(1) + "A" + teamOneDataScore.get(2) + "D" + teamOneDataScore.get(0) + "S" + teamOneDataScore.get(4) + "N[" + superNotesOne + "]," + "M" + teamNumberTwo + "B" + teamTwoDataScore.get(3) + "G" + teamTwoDataScore.get(1) + "A" + teamTwoDataScore.get(2) + "D" + teamTwoDataScore.get(0) + "S" + teamTwoDataScore.get(4) + "N[" + superNotesTwo + "]," + "M" + teamNumberThree + "B" + teamThreeDataScore.get(3) + "G" + teamThreeDataScore.get(1) + "A" + teamThreeDataScore.get(2) + "D" + teamThreeDataScore.get(0) + "S" + teamThreeDataScore.get(4) + "N[" + superNotesThree + "])";
+
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    file = null;
+                    //make the directory of the file
+                    dir.mkdir();
+                    //can delete when doing the actual thing
+                    file = new PrintWriter(new FileOutputStream(new File(dir, ("Q" + matchNumber + "_"  + new SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new Date())))));
+                } catch (IOException IOE) {
+                    return;
+                }
+                file.println(compressedData);
+                file.close();
+                context.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(context, "Sent Match Data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }.start();
     }
 
     public void displayQR(String qrCode){
@@ -188,7 +225,7 @@ public class QrDisplay extends ActionBarActivity {
             Log.e("QrGenerate",ex.getMessage());
         }
     }
-    public  void createQRCode(String qrCodeData, String charset, Map hintMap, int qrCodeheight, int qrCodewidth){
+    public void createQRCode(String qrCodeData, String charset, Map hintMap, int qrCodeheight, int qrCodewidth){
 
         try {
             //generating qr code in bitmatrix type
@@ -214,6 +251,7 @@ public class QrDisplay extends ActionBarActivity {
             Log.e("QrGenerate",er.getMessage());
         }
     }
+
 
 
 }
