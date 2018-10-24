@@ -90,6 +90,14 @@ public class ScoutingPage extends ActionBarActivity {
     SuperScoutingPanel panelOne;
     SuperScoutingPanel panelTwo;
     SuperScoutingPanel panelThree;
+    ToggleButton f0;
+    ToggleButton f1;
+    ToggleButton f2;
+    ToggleButton f3;
+    ToggleButton b0;
+    ToggleButton b1;
+    ToggleButton b2;
+    ToggleButton b3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -471,17 +479,41 @@ public class ScoutingPage extends ActionBarActivity {
 
     public void ForceDialogs(View view){
         AlertDialog.Builder forceDialog = new AlertDialog.Builder(context);
+        final View forceView = LayoutInflater.from(context).inflate(R.layout.force_dialog, null);
+        f0 = (ToggleButton)forceView.findViewById(R.id.forceZero);
+        f1 = (ToggleButton)forceView.findViewById(R.id.forceone);
+        f2 = (ToggleButton)forceView.findViewById(R.id.forcetwo);
+        f3 = (ToggleButton)forceView.findViewById(R.id.forcethree);
+        if (allianceCubesForPowerup.get("Force").equals(3)){
+            f3.setChecked(true);
+        } else if (allianceCubesForPowerup.get("Force").equals(2)){
+            f2.setChecked(true);
+        } else if (allianceCubesForPowerup.get("Force").equals(1)){
+            f1.setChecked(true);
+        } else {
+            f0.setChecked(true);
+        }
+
+        if (f3.isChecked()){
+            f0.setChecked(true);
+            f1.setChecked(true);
+            f2.setChecked(true);
+        } else if (f2.isChecked()){
+            f3.setChecked(false);
+            f0.setChecked(true);
+            f1.setChecked(true);
+        } else if (f1.isChecked()){
+            f0.setChecked(true);
+        } else {
+            f0.setChecked(true);
+        }
         forceDialog.setCancelable(false);
-        forceDialog.setView(R.layout.force_dialog);
+        forceDialog.setView(forceView);
         forceDialog.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Dialog d = (Dialog) dialog;
-                        ToggleButton f1 = (ToggleButton)d.findViewById(R.id.forceone);
-                        ToggleButton f2 = (ToggleButton)d.findViewById(R.id.forcetwo);
-                        ToggleButton f3 = (ToggleButton)d.findViewById(R.id.forcethree);
-                        ArrayList<ToggleButton> forceToggles = new ArrayList<>(Arrays.asList(f1, f2, f3));
+                        ArrayList<ToggleButton> forceToggles = new ArrayList<>(Arrays.asList(f0, f1, f2, f3));
                         for (int i = 0; i < forceToggles.size(); i++){
                             if(forceToggles.get(i).isChecked()){
                                 allianceCubesForPowerup.put("Force", Integer.parseInt(forceToggles.get(i).getText().toString()));
@@ -501,21 +533,80 @@ public class ScoutingPage extends ActionBarActivity {
 
         AlertDialog alert11 = forceDialog.create();
         alert11.show();
+    }
 
-
+    public void DialogsOnClick(View view) {
+        int id = view.getId();
+        if (id == R.id.forcethree){
+            f0.setChecked(true);
+            f1.setChecked(true);
+            f2.setChecked(true);
+        } else if (id == R.id.forcetwo){
+            f3.setChecked(false);
+            f0.setChecked(true);
+            f1.setChecked(true);
+        } else if (id == R.id.forceone){
+            f0.setChecked(true);
+            f3.setChecked(false);
+            f2.setChecked(false);
+        } else if (id == R.id.forceZero){
+            f3.setChecked(false);
+            f2.setChecked(false);
+            f1.setChecked(false);
+        } if (id == R.id.boostthree){
+            b0.setChecked(true);
+            b1.setChecked(true);
+            b2.setChecked(true);
+        } else if (id == R.id.boosttwo){
+            b3.setChecked(false);
+            b0.setChecked(true);
+            b1.setChecked(true);
+        } else if (id == R.id.boostone){
+            b0.setChecked(true);
+            b3.setChecked(false);
+            b2.setChecked(false);
+        } else if (id == R.id.boostzero){
+            b3.setChecked(false);
+            b2.setChecked(false);
+            b1.setChecked(false);
+        }
     }
     public void BoostDialogs(View view) {
         AlertDialog.Builder boostDialog = new AlertDialog.Builder(context);
+        final View boostView = LayoutInflater.from(context).inflate(R.layout.boost_dialog, null);
+        b0 = (ToggleButton)boostView.findViewById(R.id.boostzero);
+        b1 = (ToggleButton)boostView.findViewById(R.id.boostone);
+        b2 = (ToggleButton)boostView.findViewById(R.id.boosttwo);
+        b3 = (ToggleButton)boostView.findViewById(R.id.boostthree);
+        if (allianceCubesForPowerup.get("Boost").equals(3)){
+            b3.setChecked(true);
+        } else if (allianceCubesForPowerup.get("Boost").equals(2)){
+            b2.setChecked(true);
+        } else if (allianceCubesForPowerup.get("Boost").equals(1)){
+            b1.setChecked(true);
+        } else {
+            b0.setChecked(true);
+        }
+
+        if (b3.isChecked()){
+            b0.setChecked(true);
+            b1.setChecked(true);
+            b2.setChecked(true);
+        } else if (b2.isChecked()){
+            b3.setChecked(false);
+            b0.setChecked(true);
+            b1.setChecked(true);
+        } else if (b1.isChecked()){
+            b0.setChecked(true);
+        } else {
+            b0.setChecked(true);
+        }
         boostDialog.setCancelable(false);
-        boostDialog.setView(R.layout.boost_dialog);
+        boostDialog.setView(boostView);
         boostDialog.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Dialog d = (Dialog) dialog;
-                        ToggleButton b1 = (ToggleButton)d.findViewById(R.id.boostone);
-                        ToggleButton b2 = (ToggleButton)d.findViewById(R.id.boosttwo);
-                        ToggleButton b3 = (ToggleButton)d.findViewById(R.id.boostthree);
                         ArrayList<ToggleButton> boostToggles = new ArrayList<>(Arrays.asList(b1, b2, b3));
                         for (int i = 0; i < boostToggles.size(); i++){
                             if(boostToggles.get(i).isChecked()){

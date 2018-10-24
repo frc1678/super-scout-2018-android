@@ -5,6 +5,9 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +15,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -35,11 +39,13 @@ public class FieldSetupPage extends AppCompatActivity{
     Activity context;
     Intent previous;
     Intent next;
-
+    View leftView;
+    View rightView;
+    String red;
+    String blue;
     String numberOfMatch;
-    //Intent next;
+    String leftViewColor;
     DatabaseReference dataBase;
-
     PlateConfig plateConfig;
     boolean isRed;
 
@@ -52,7 +58,13 @@ public class FieldSetupPage extends AppCompatActivity{
         previous = getIntent();
         getExtrasForSetup();
         dataBase = FirebaseDatabase.getInstance().getReference();
-
+        leftView = findViewById(R.id.leftColorView);
+        rightView = findViewById(R.id.rightColorView);
+        blue = "#aa0000ff";
+        red = "#aaff0000";
+        leftView.setBackgroundColor(Color.parseColor(blue));
+        rightView.setBackgroundColor(Color.parseColor(red));
+        leftViewColor = "blue";
         plateConfig = new PlateConfig(context, isRed);
     }
 
@@ -104,9 +116,14 @@ public class FieldSetupPage extends AppCompatActivity{
 
                 next = new Intent(context, ScoutingPage.class);
                 next.putExtras(previous);
-                next.putExtra("blueSwitch", configMap.get(R.id.blueBottomPlateButton));
                 next.putExtra("scale", configMap.get(R.id.scaleBottomPlateButton));
-                next.putExtra("redSwitch", configMap.get(R.id.redBottomPlateButton));
+                if (leftViewColor.equals("blue")){
+                    next.putExtra("blueSwitch", configMap.get(R.id.leftBottomPlateButton));
+                    next.putExtra("redSwitch", configMap.get(R.id.rightBottomPlateButton));
+                } else {
+                    next.putExtra("redSwitch", configMap.get(R.id.leftBottomPlateButton));
+                    next.putExtra("blueSwitch", configMap.get(R.id.rightBottomPlateButton));
+                }
                 startActivity(next);
             }
 
@@ -119,6 +136,18 @@ public class FieldSetupPage extends AppCompatActivity{
     public void plateButtonPress(View plateButton)
     {
         plateConfig.swapColor(plateButton);
+    }
+
+    public void rotateButtonPress(View view) {
+        if (leftViewColor.equals("blue")) {
+            leftView.setBackgroundColor(Color.parseColor(red));
+            rightView.setBackgroundColor(Color.parseColor(blue));
+            leftViewColor = "red";
+        } else {
+            leftView.setBackgroundColor(Color.parseColor(blue));
+            rightView.setBackgroundColor(Color.parseColor(red));
+            leftViewColor = "blue";
+        }
     }
 
     public void getExtrasForSetup() {
