@@ -62,9 +62,16 @@ public class FieldSetupPage extends AppCompatActivity{
         rightView = findViewById(R.id.rightColorView);
         blue = "#aa0000ff";
         red = "#aaff0000";
-        leftView.setBackgroundColor(Color.parseColor(blue));
-        rightView.setBackgroundColor(Color.parseColor(red));
-        leftViewColor = "blue";
+        if (leftViewColor.equals("blue")) {
+            leftView.setBackgroundColor(Color.parseColor(blue));
+            rightView.setBackgroundColor(Color.parseColor(red));
+        } else if(leftViewColor.equals("red")) {
+            leftView.setBackgroundColor(Color.parseColor(red));
+            rightView.setBackgroundColor(Color.parseColor(blue));
+        } else {
+            leftView.setBackgroundColor(Color.parseColor(blue));
+            rightView.setBackgroundColor(Color.parseColor(red));
+        }
         plateConfig = new PlateConfig(context, isRed);
     }
 
@@ -138,22 +145,11 @@ public class FieldSetupPage extends AppCompatActivity{
         plateConfig.swapColor(plateButton);
     }
 
-    public void rotateButtonPress(View view) {
-        if (leftViewColor.equals("blue")) {
-            leftView.setBackgroundColor(Color.parseColor(red));
-            rightView.setBackgroundColor(Color.parseColor(blue));
-            leftViewColor = "red";
-        } else {
-            leftView.setBackgroundColor(Color.parseColor(blue));
-            rightView.setBackgroundColor(Color.parseColor(red));
-            leftViewColor = "blue";
-        }
-    }
-
     public void getExtrasForSetup() {
 
         numberOfMatch = previous.getExtras().getString("matchNumber");
         isRed = previous.getExtras().getBoolean("allianceColor");
+        leftViewColor = previous.getExtras().getString("leftViewColor");
     }
 
 }
