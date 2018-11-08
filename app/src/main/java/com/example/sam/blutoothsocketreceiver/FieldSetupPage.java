@@ -68,7 +68,7 @@ public class FieldSetupPage extends AppCompatActivity{
         } else if(leftViewColor.equals("red")) {
             leftView.setBackgroundColor(Color.parseColor(red));
             rightView.setBackgroundColor(Color.parseColor(blue));
-        }
+
         plateConfig = new PlateConfig(context, isRed);
     }
 
@@ -140,6 +140,18 @@ public class FieldSetupPage extends AppCompatActivity{
     public void plateButtonPress(View plateButton)
     {
         plateConfig.swapColor(plateButton);
+    }
+
+    public void rotateButtonPress(View view) {
+        if (leftViewColor.equals("blue")) {
+            leftView.setBackgroundColor(Color.parseColor(red));
+            rightView.setBackgroundColor(Color.parseColor(blue));
+            leftViewColor = "red";
+        } else {
+            leftView.setBackgroundColor(Color.parseColor(blue));
+            rightView.setBackgroundColor(Color.parseColor(red));
+            leftViewColor = "blue";
+        }
     }
 
     public void getExtrasForSetup() {
